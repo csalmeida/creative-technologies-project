@@ -31,7 +31,8 @@ class PoseNet extends Component {
           }}
           src={testFrame1}
           alt="Test frame."
-          width="1000"
+          width="500"
+          height="500"
            />
       </Fragment>
     )
