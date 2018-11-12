@@ -19,6 +19,20 @@ class PoseNet extends Component {
     console.log("Pose Estimation...")
     console.log(this.image)
     console.log("Pose data:", pose)
+
+    This code runs a video stream.
+    const video = this.video
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    .then(function(stream) {
+        video.srcObject = stream;
+        video.play();
+        console.log("Video is playing from component");
+    })
+    .catch(function(err) {
+        console.log("An error occurred! " + err);
+    });
+
+
   }
 
   render() {
@@ -34,6 +48,17 @@ class PoseNet extends Component {
           width="500"
           height="500"
            />
+          <video
+            ref={ video => {
+                this.video = video
+            }}
+            width="500"
+            height="500"
+          >Video stream is not available.</video>
+          <canvas
+            width="500"
+            height="500"
+          ></canvas>
       </Fragment>
     )
   }
