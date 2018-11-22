@@ -48,7 +48,7 @@ class PoseNet extends Component {
     const pose = estimatePoseOnImage(this.image)
     .then((data) => {
       // Drawing has to occur when promise is fulfilled.
-      this.drawKeypoints(data[0].keypoints)
+      this.drawKeypoints(data.keypoints)
       this.screenInit(video)
       console.info("Points: ", data)
     })
