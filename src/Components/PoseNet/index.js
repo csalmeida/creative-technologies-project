@@ -9,45 +9,68 @@ async function estimatePoseOnImage(imageElement) {
   // load the posenet model from a checkpoint
   const net = await posenet.load()
   const pose = await net.estimateSinglePose(imageElement, imageScaleFactor, flipHorizontal, outputStride)
+  //const pose = await net.estimateMultiplePoses(imageElement, imageScaleFactor, flipHorizontal, outputStride)
   return pose
 }
 
 class PoseNet extends Component {
   drawKeypoints(keypoints) {
-    const canvas = this.canvas
-    const context = canvas.getContext("2d")
+    const canvas = this.canvas,
+          context = canvas.getContext("2d"),
+          radius = 2,
+          startAngle = 0,
+          endAngle = 2*Math.PI
+
+
     for (let i = 0; i < keypoints.length; i++) {
       context.beginPath()
       context.arc(
         keypoints[i].position.x,
         keypoints[i].position.y,
-        5,0,2*Math.PI)
+        radius,
+        startAngle,
+        endAngle)
       context.fill()
     }
   }
 
+  screenInit(video) {
+    const screen = this.screen
+    screen.height = 500
+    screen.width = 500
+    let context = screen.getContext('2d')
+    context.drawImage(video, 0, 0, screen.width, screen.height)
+    console.log("Screen", screen);
+  }
+
   componentDidMount() {
     // running the code here is not working, try something else
-    let pose = estimatePoseOnImage(this.image)
+    const pose = estimatePoseOnImage(this.image)
     .then((data) => {
       // Drawing has to occur when promise is fulfilled.
-      this.drawKeypoints(data.keypoints)
+      this.drawKeypoints(data[0].keypoints)
+      this.screenInit(video)
+      console.info("Points: ", data)
     })
     console.log("Pose Estimation...")
     console.log(this.image)
     console.log("Pose data:", pose)
 
     // This code runs a video stream.
-    // const video = this.video
-    // navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-    // .then(function(stream) {
-    //     video.srcObject = stream
-    //     video.play()
-    //     console.log("Video is playing from component")
-    // })
-    // .catch(function(err) {
-    //     console.log("An error occurred! " + err)
-    // })
+    const video = this.video
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    .then(function(stream) {
+        video.srcObject = stream
+        video.play()
+        console.log("Video is playing from component")
+    })
+    .catch(function(err) {
+        console.log("An error occurred! " + err)
+    })
+  }
+
+  componentDidUpdate() {
+
   }
 
   render() {
@@ -70,6 +93,13 @@ class PoseNet extends Component {
             width="500"
             height="500"
           >Video stream is not available.</video>
+          <canvas
+            ref={ screen => {
+                this.screen = screen
+            }}
+            width="500"
+            height="500"
+          >Canvas is not available in this browser.</canvas>
           <canvas
             ref={ canvas => {
                 this.canvas = canvas
