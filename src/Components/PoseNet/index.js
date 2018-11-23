@@ -14,8 +14,16 @@ async function estimatePoseOnImage(imageElement) {
 }
 
 class PoseNet extends Component {
+  constructor(props) {
+    super(props);
+    this.image = React.createRef();
+    this.video = React.createRef();
+    this.canvas = React.createRef();
+    this.screen = React.createRef();
+  }
+
   drawKeypoints(keypoints) {
-    const canvas = this.canvas,
+    const canvas = this.canvas.current,
           context = canvas.getContext("2d"),
           radius = 2,
           startAngle = 0,
@@ -34,34 +42,37 @@ class PoseNet extends Component {
     }
   }
 
-  screenInit(video) {
-    const screen = this.screen
+  drawFrame = (video) => {
+    const screen = this.screen.current
     screen.height = 500
     screen.width = 500
     let context = screen.getContext('2d')
-    context.drawImage(video, 0, 0, screen.width, screen.height)
-    console.log("Screen", screen);
+    context.drawImage(this.video.current, 0, 0)
+    context.drawImage(this.video.current, 0, 0)
+    requestAnimationFrame(this.drawFrame)
+    console.log("Screen", screen)
   }
 
   componentDidMount() {
     // running the code here is not working, try something else
-    const pose = estimatePoseOnImage(this.image)
+    const image = this.image.current
+    const pose = estimatePoseOnImage(image)
     .then((data) => {
       // Drawing has to occur when promise is fulfilled.
       this.drawKeypoints(data.keypoints)
-      this.screenInit(video)
       console.info("Points: ", data)
     })
     console.log("Pose Estimation...")
-    console.log(this.image)
+    console.log(image)
     console.log("Pose data:", pose)
 
     // This code runs a video stream.
-    const video = this.video
+    const video = this.video.current
     navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-    .then(function(stream) {
+    .then((stream) => {
         video.srcObject = stream
         video.play()
+        video.addEventListener("play", this.drawFrame(video), false);
         console.log("Video is playing from component")
     })
     .catch(function(err) {
@@ -78,32 +89,24 @@ class PoseNet extends Component {
       <Fragment>
         <p>Hi from Posenet.</p>
         <img
-          ref={ image => {
-              this.image = image
-          }}
+          ref={this.image}
           src={testFrame1}
           alt="Test frame."
           width="500"
           height="500"
            />
           <video
-            ref={ video => {
-                this.video = video
-            }}
+            ref={this.video}
             width="500"
             height="500"
           >Video stream is not available.</video>
           <canvas
-            ref={ screen => {
-                this.screen = screen
-            }}
+            ref={this.screen}
             width="500"
             height="500"
           >Canvas is not available in this browser.</canvas>
           <canvas
-            ref={ canvas => {
-                this.canvas = canvas
-            }}
+            ref={this.canvas}
             width="500"
             height="500"
           >Canvas is not available in this browser.</canvas>
