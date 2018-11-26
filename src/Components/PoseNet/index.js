@@ -7,7 +7,7 @@ const flipHorizontal = false;
 
 async function estimatePoseOnImage(imageElement) {
   // load the posenet model from a checkpoint
-  const net = await posenet.load()
+  const net = await posenet.load(0.75)
   const pose = await net.estimateSinglePose(imageElement, imageScaleFactor, flipHorizontal, outputStride)
   //const pose = await net.estimateMultiplePoses(imageElement, imageScaleFactor, flipHorizontal, outputStride)
   return pose
@@ -47,16 +47,20 @@ class PoseNet extends Component {
     screen.height = 500
     screen.width = 500
     let context = screen.getContext('2d')
-    context.drawImage(this.video.current, 0, 0)
-    context.drawImage(this.video.current, 0, 0)
+    context.drawImage(
+      this.video.current,
+      0, 0,
+      screen.width, screen.height,
+      0, 0,
+      screen.width, screen.height)
     requestAnimationFrame(this.drawFrame)
-    console.log("Screen", screen)
   }
 
   componentDidMount() {
-    // running the code here is not working, try something else
+    //console.log("Screen data: ", this.screen.current.toDataURL);
+
     const image = this.image.current
-    const pose = estimatePoseOnImage(image)
+    const pose = estimatePoseOnImage(this.screen.current)
     .then((data) => {
       // Drawing has to occur when promise is fulfilled.
       this.drawKeypoints(data.keypoints)
@@ -102,8 +106,6 @@ class PoseNet extends Component {
           >Video stream is not available.</video>
           <canvas
             ref={this.screen}
-            width="500"
-            height="500"
           >Canvas is not available in this browser.</canvas>
           <canvas
             ref={this.canvas}
