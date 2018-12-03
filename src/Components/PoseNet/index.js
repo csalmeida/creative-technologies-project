@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import * as p5 from 'p5'
-import "p5/lib/addons/p5.dom";
+// Add .min for production version
+import "p5/lib/addons/p5.dom"
+import "p5/lib/addons/p5.sound"
 import * as ml5 from 'ml5'
-
-console.info("ML5", ml5)
-console.info("P5", p5)
 
 const draw = (sketch, video, poses) => {
   sketch.resizeCanvas(sketch.windowWidth, sketch.windowHeight)
@@ -40,10 +39,10 @@ const drawSkeleton = (sketch, poses) => {
     let skeleton = poses[i].skeleton;
     // For every skeleton, loop through all body connections
     for (let j = 0; j < skeleton.length; j++) {
-      let partA = skeleton[j][0];
-      let partB = skeleton[j][1];
-      sketch.stroke(255,255,255);
-      sketch.line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
+      let partA = skeleton[j][0]
+      let partB = skeleton[j][1]
+      sketch.stroke(255,255,255)
+      sketch.line(partA.position.x, partA.position.y, partB.position.x, partB.position.y)
     }
   }
 }
@@ -51,35 +50,45 @@ const drawSkeleton = (sketch, poses) => {
 class PoseNet extends Component {
   constructor(props) {
     super(props);
-    this.video = React.createRef();
+    this.video = React.createRef()
   }
 
   componentDidMount() {
+    const wave = new p5.Oscillator()
+    wave.setType("sine")
+    wave.start()
+    wave.amp(0.1, 1)
+    wave.freq(200)
+    console.log("Wave", wave)
+
     const sketch = new p5()
     sketch.createCanvas(640, 480)
-    var constraints = {
-    video: {
-      mandatory: {
-        minWidth: sketch.width,
-        minHeight: sketch.height
+    const constraints = {
+      video: {
+        mandatory: {
+          minWidth: sketch.width,
+          minHeight: sketch.height
+        },
+        //optional: [{ maxFrameRate: 10 }]
       },
-      //optional: [{ maxFrameRate: 10 }]
-    },
-    audio: false
-  };
+      audio: false
+    }
     const video = sketch.createCapture(constraints, p5.VIDEO)
     // console.log("width", sketch.width, "height", sketch.height);
     // console.log("P5 Video", sketch.VIDEO);
     video.size(sketch.width, sketch.height)
 
 
-
-    // const poseNet = ml5.poseNet(video);
-    // poseNet.on('pose', function(poses) {
-    //   //console.log("Poses", poses)
-    //   draw(sketch, video, poses)
-    // })
-    // video.hide()
+    // Detects pose and hides video
+    const poseNet = ml5.poseNet(video);
+    poseNet.on('pose', function(poses) {
+      if (typeof poses[0] !== 'undefined' && typeof poses[0].pose !== 'undefined') {
+        console.log("Poses", poses[0].pose.keypoints[0].position.x)
+        wave.freq(poses[0].pose.keypoints[0].position.x)
+      }
+      draw(sketch, video, poses)
+    })
+    video.hide()
   }
 
   render() {
