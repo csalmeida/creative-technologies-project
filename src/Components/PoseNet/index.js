@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import * as p5 from 'p5'
 import "p5/lib/addons/p5.dom";
-//import * as p5DOM from '../../Libraries/p5.dom'
 import * as ml5 from 'ml5'
 
 console.info("ML5", ml5)
@@ -58,20 +57,29 @@ class PoseNet extends Component {
   componentDidMount() {
     const sketch = new p5()
     sketch.createCanvas(640, 480)
-    const video = sketch.createCapture(p5.VIDEO)
-    console.log("width", sketch.width, "height", sketch.height);
-    console.log("P5 Video", sketch.VIDEO);
+    var constraints = {
+    video: {
+      mandatory: {
+        minWidth: sketch.width,
+        minHeight: sketch.height
+      },
+      //optional: [{ maxFrameRate: 10 }]
+    },
+    audio: false
+  };
+    const video = sketch.createCapture(constraints, p5.VIDEO)
+    // console.log("width", sketch.width, "height", sketch.height);
+    // console.log("P5 Video", sketch.VIDEO);
     video.size(sketch.width, sketch.height)
 
 
 
-    const poseNet = ml5.poseNet(video);
-    poseNet.on('pose', function(poses) {
-      console.log("Poses", poses)
-      draw(sketch, video, poses)
-      // save this to state poses = results;
-    })
-    video.hide()
+    // const poseNet = ml5.poseNet(video);
+    // poseNet.on('pose', function(poses) {
+    //   //console.log("Poses", poses)
+    //   draw(sketch, video, poses)
+    // })
+    // video.hide()
   }
 
   render() {
