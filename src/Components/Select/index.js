@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Container, Option } from './styles'
+import { Container, Options, Option } from './styles'
 
 // Use svg as fall back in case CSS icon breaks.
 const svgTriangle = () => {return(
@@ -54,8 +54,9 @@ export default class Select extends Component {
   }
 
   render = () => (
-  <Fragment>
-    <Container onClick={() => this.open()}>
+  <Container>
+    <label>{this.props.label}</label>
+    <Options onClick={() => this.open()} open={this.state.open}>
       <Option open={this.state.open}>
         {this.state.selected}
         {svgTriangle()}
@@ -67,12 +68,13 @@ export default class Select extends Component {
       </option>
       )}
       </select>
-    </Container>
-  </Fragment>
+    </Options>
+  </Container>
   )
 }
 
 Select.defaultProps = {
+  label: 'Options:',
   open: false,
   options: ["Empty"],
 }

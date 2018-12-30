@@ -4,13 +4,40 @@ import { palette } from '../../Styles/colors'
 const iconSize = 0.5
 
 export const Container = styled.div`
-background: ${palette.darktone};
-padding: 0.6rem 0.5rem;
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+max-height: ${2.2 - 0.5 + "rem"};
+
+background: ${palette.midtone};
+padding: 0.5rem 0.5rem;
 border-radius: 0.4rem;
-cursor: pointer;
+
+label {
+  margin-right: 1rem;
+}
 
 select {
   display: none;
+}
+`
+
+export const Options = styled.div`
+background: ${palette.darktone};
+padding: 0.4rem 0.5rem;
+border-radius: 0.4rem;
+cursor: pointer;
+position: relative;
+
+select {
+  display: none;
+}
+
+${props => props.open && 
+    css`
+    align-self: flex-start;
+    `
 }
 `
 
@@ -74,7 +101,7 @@ export const Option = styled.div`
     border-bottom: 2px solid ${palette.lighttone};
   }
 
-  ${props => props.selected && 
+${props => props.selected && 
     css`
     color: ${palette.highlight};
     transition: color .2s;
@@ -97,16 +124,4 @@ export const Option = styled.div`
   }
 `
 
-export const Label = styled.div`
-  font-size: 1.2rem;
-  min-width: 5rem;
-  text-align: center;
-  padding-bottom: 0.5rem;
-  margin-bottom: 0.5rem;
 
-  border-bottom: 2px solid ${palette.lighttone};
-
-  :not(:last-of-type) {
-    border-bottom: none;
-  }
-`
