@@ -7,12 +7,19 @@ export const Container = styled.div`
 background: ${palette.darktone};
 padding: 0.6rem 0.5rem;
 border-radius: 0.4rem;
+cursor: pointer;
+
+select {
+  display: none;
+}
 `
+
 
 export const Triangle = styled.div`
   position: relative;
   background-color: ${palette.highlight};
   text-align: left;
+  cursor: pointer;
 
   width:  ${iconSize + "rem"};
 	height: ${iconSize + "rem"};
@@ -67,12 +74,20 @@ export const Option = styled.div`
     border-bottom: 2px solid ${palette.lighttone};
   }
 
+  ${props => props.selected && 
+    css`
+    color: ${palette.highlight};
+    transition: color .2s;
+    `
+  }
+
   svg {
     position: absolute;
     right: 0px;
     fill: ${palette.highlight};
     width:  ${iconSize * 1.8 + "rem"};
     height: ${iconSize * 1.8 + "rem"};
+    cursor: pointer;
 
     ${ props => props.open ? (
         css`transform: rotate(0deg);`

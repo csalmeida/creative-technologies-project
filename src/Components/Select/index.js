@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react'
-import { Container, Option, Label } from './styles'
+import { Container, Option } from './styles'
 
 // Use svg as fall back in case CSS icon breaks.
-const svgTriangle = (open) => {return(
+const svgTriangle = () => {return(
 <Fragment>
-  <svg open={open} version="1.1" x="0px" y="0px" width="79.39px" height="70.06px" viewBox="0 0 79.39 70.06">
+  <svg version="1.1" x="0px" y="0px" width="79.39px" height="70.06px" viewBox="0 0 79.39 70.06">
   <defs>
   </defs>
   <g>
@@ -15,32 +15,59 @@ const svgTriangle = (open) => {return(
 </Fragment>
 )}
 
+const renderOptions = (state, select) => {
+  let {options, open, selected } = state
+  if (open) {
+    return options.map( (option, index) => <Option
+    key={index}
+    onClick={() => select(option)}
+    selected={selected === option}
+    >
+      {console.log("Option:", option)}
+      {option}
+      </Option>
+    )
+  }
+}
+
 export default class Select extends Component {
   constructor(props) {
+    super(props)
     this.state = {
       open: props.open,
       options: props.options,
+      selected: props.options[0],
     }
+  }
+
+  open = () => {
+    console.log('Open', this.state.open)
+    this.setState({
+      open: !this.state.open
+    })
+  }
+
+  selectOption = (value) => {
+    this.setState({
+      selected: value,
+    })
   }
 
   render = () => (
   <Fragment>
-    <Container open={this.props.open}>
-    { this.props.options.map( (option, index) => <Option >
-      option
-      index === 1 && {svgTriangle(this.props.open)}
+    <Container onClick={() => this.open()}>
+      <Option open={this.state.open}>
+        {this.state.selected}
+        {svgTriangle()}
       </Option>
-    )}
-      <Option>8{svgTriangle(this.props.open)}</Option>
-      <Option>16</Option>
-      <Option>32</Option>
+      {renderOptions(this.state, this.selectOption)}
+      <select>
+      { this.state.options.map( (option, index) => <option key={index} value={option} selected={this.state.selected === option}>
+      {option}
+      </option>
+      )}
+      </select>
     </Container>
-    <select>
-      <option value="volvo">Volvo</option>
-      <option value="saab">Saab</option>
-      <option value="opel" >Opel</option>
-      <option value="audi">Audi</option>
-    </select>
   </Fragment>
   )
 }
