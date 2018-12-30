@@ -24,18 +24,13 @@ export default class Input extends Component {
   render = () => (
     <Container>
       <label>{this.props.label}</label>
-      { this.props.type === "text" && 
-        <input type={this.props.type} placeholder={this.props.placeholder} value={this.state.value} onChange={this.handleChange} />
-      }
-
-      { this.props.type === "checkbox" &&
-        <Fragment>
+      { this.props.type === "checkbox" ? (
+      <Fragment>
           <ToggleSwitch toggled={this.state.checked} handleChange={this.handleChange} />
           <input type={this.props.type} checked={this.state.checked} onChange={this.handleChange}/>
-        </Fragment>  
-      }
-
-      
+        </Fragment>) : (
+          <input type={this.props.type} placeholder={this.props.placeholder} value={this.state.value} onChange={this.handleChange} />
+        )}
     </Container>
   )
 }

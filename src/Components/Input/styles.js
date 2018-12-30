@@ -17,7 +17,7 @@ label {
   margin-right: 1rem;
 }
 
-input[type="text"] {
+input:not([type="checkbox"]) {
   background: ${palette.darktone};
   color: ${palette.text};
   font-size: 1.1rem;
