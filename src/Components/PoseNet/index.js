@@ -4,10 +4,11 @@ import * as p5 from 'p5'
 import "p5/lib/addons/p5.dom"
 import "p5/lib/addons/p5.sound"
 import * as ml5 from 'ml5'
+import { Container } from './styles'
 
 const draw = (sketch, video, poses) => {
   sketch.resizeCanvas(sketch.windowWidth, sketch.windowHeight)
-  sketch.image(video, 0, 0)
+  sketch.image(video, 0, 0, sketch.windowWidth, sketch.windowHeight)
   // We can call both functions to draw all keypoints and the skeletons
   drawKeypoints(sketch, poses)
   drawSkeleton(sketch, poses)
@@ -50,51 +51,64 @@ const drawSkeleton = (sketch, poses) => {
 class PoseNet extends Component {
   constructor(props) {
     super(props);
-    this.video = React.createRef()
+    this.container = React.createRef();
   }
 
   componentDidMount() {
-    const wave = new p5.Oscillator()
-    wave.setType("sine")
-    wave.start()
-    wave.amp(0.1, 1)
-    wave.freq(200)
-    console.log("Wave", wave)
+    // const wave = new p5.Oscillator()
+    // wave.setType("sine")
+    // wave.start()
+    // wave.amp(0.1, 1)
+    // wave.freq(200)
+    // console.log("Wave", wave)
 
-    const sketch = new p5()
+    const sketch = new p5(() => {}, this.container.current)
     sketch.createCanvas(640, 480)
     const constraints = {
       video: {
-        mandatory: {
-          minWidth: sketch.width,
-          minHeight: sketch.height
-        },
-        //optional: [{ maxFrameRate: 10 }]
+        width: sketch.width,
+        height: sketch.height,
+        facingMode: undefined,
+        frameRate: 30,
+        aspectRatio: 2.5,
       },
       audio: false
     }
     const video = sketch.createCapture(constraints, p5.VIDEO)
     // console.log("width", sketch.width, "height", sketch.height);
     // console.log("P5 Video", sketch.VIDEO);
-    video.size(sketch.width, sketch.height)
+    video.size(sketch.windowWidth, sketch.windowHeight)
 
 
     // Detects pose and hides video
-    const poseNet = ml5.poseNet(video);
+    const poseOptions = { 
+      imageScaleFactor: 0.2,
+      outputStride: 16,
+      flipHorizontal: false,
+      minConfidence: 0.5,
+      maxPoseDetections: 5,
+      scoreThreshold: 0.5,
+      nmsRadius: 20,
+      detectionType: 'single',
+      multiplier: 0.75,
+     }
+    const poseNet = ml5.poseNet(video, poseOptions)
     poseNet.on('pose', function(poses) {
       if (typeof poses[0] !== 'undefined' && typeof poses[0].pose !== 'undefined') {
-        console.log("Poses", poses[0].pose.keypoints[0].position.x)
-        wave.freq(poses[0].pose.keypoints[0].position.x)
+        // Control sound signal (frequency)
+        // console.log("Poses", poses[0].pose.keypoints[0].position.x)
+        // wave.freq(poses[0].pose.keypoints[0].position.x)
       }
       draw(sketch, video, poses)
     })
     video.hide()
+
   }
 
   render() {
     return(
       <Fragment>
-        <p>Posenet</p>
+        <Container ref={this.container} />
       </Fragment>
     )
   }
