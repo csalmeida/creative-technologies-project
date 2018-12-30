@@ -49,7 +49,7 @@ export const GlobalStyles = createGlobalStyle`
     font-family: MiriamLibreBold, monospace, sans-serif;
     font-weight: 400;
     line-height: inherit;
-    color: ${palette.lightone};
+    color: ${palette.lighttone};
   }
 
   h1 {
@@ -75,6 +75,12 @@ export const GlobalStyles = createGlobalStyle`
 
   a:hover {
     text-decoration: overline;
+  }
+
+  label, input {
+    font-family: MiriamLibreRegular, monospace, sans-serif;
+    color: ${palette.text};
+    font-size: 1.2em;
   }
 
   ${media.desktop`

@@ -17,7 +17,7 @@ const palette = {
   base: color.slateBlue,
   highlight: color.frenchMauve,
   text: color.mistyRose,
-  lightone: color.unitedNationsBlue,
+  lighttone: color.unitedNationsBlue,
   midtone: color.violetBlue,
   darktone: color.cobaltBlue
 }
