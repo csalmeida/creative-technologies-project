@@ -63,7 +63,7 @@ export default class Select extends Component {
       </Option>
       {renderOptions(this.state, this.selectOption)}
       <select>
-      { this.state.options.map( (option, index) => <option key={index} value={option} selected={this.state.selected === option}>
+      { this.state.options.map( (option, index) => <option key={index} value={option} defaultValue={this.state.selected === option}>
       {option}
       </option>
       )}
