@@ -16,10 +16,6 @@ export const Tab = styled.div`
   cursor: pointer;
   border-radius: 0.5rem 0.5rem 0 0;
   
-  /* :not(:last-of-type) {
-    margin-right: 0.5rem;
-  } */
-  
   h2 {
     color: ${palette.text};
     font-size: 1.2rem;
