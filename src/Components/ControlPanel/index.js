@@ -1,8 +1,12 @@
 import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
+import { cameraToggle } from '../../Store/Actions'
+
 import Input from '../Input'
 import Select from '../Select'
 import { Container, Tabs, Tab } from './styles'
 
+// Tabs titles to be iterated through.
 const tabs = [
   'Video Stream',
   'Pose Estimation',
@@ -26,11 +30,11 @@ class ControlPanel extends Component {
 
   renderVideoStreamFields = () => {
     return(<Container>
-      <Input label="Camera" type="checkbox" checked={true} />
+      <Input label="Camera" type="checkbox" checked={this.props.videoStream.camera} action={this.props.cameraToggle} />
       <Input label="Video" type="checkbox" checked={true} />
       <Input label="Mirror" type="checkbox" checked={false} />
       <Input label="Fullscreen" type="checkbox" checked={false} />
-      <Select label={"Facing Mode"} options={['User', 'Environment', 'Left', 'Right']} />
+      <Select key={this.state.active} label="Facing Mode" options={['User', 'Environment', 'Left', 'Right']} />
       <Input label="Framerate" placeholder="fps" />
     </Container>)
   }
@@ -41,9 +45,9 @@ class ControlPanel extends Component {
       <Input label="Skeleton" type="checkbox" checked={true} />
       <Input label="Color" placeholder="#1b4c2a" />
       <Input label="Flip Horizontal" type="checkbox" checked={false} />
-      <Select label={"Pose Detection"} options={['Single', 'Multiple']} />
-      <Input label="Image Scale Factor" placeholder="number" />
-      <Select label={"Output Stride"} options={[8, 16, 32]} />
+      <Select key={this.state.active} label="Pose Detection" options={['Single', 'Multiple']} />
+      <Input label="Image Scale Factor" placeholder="between 0.2 and 1.0" />
+      <Select label="Output Stride" options={[8, 16, 32]} />
     </Container>)
   }
 
@@ -68,7 +72,7 @@ class ControlPanel extends Component {
         return (<Container>
           <h1>Control Panel</h1>
           <Input label="Color" placeholder="#1b4c2a" />
-          <Input label="Camera" type="checkbox" checked={true} />
+          <Input label="Camera" type="checkbox" checked={true} action={this.props.cameraToggle}/>
           <Input label="Multiplier" type="number" checked={true} />
           <Select label={"Output Stride"} options={[8, 16, 32]} />
           <Select label={"Pose Detection"} options={['Single', 'Multiple']} />
@@ -89,9 +93,20 @@ class ControlPanel extends Component {
       </Tabs>
       {this.renderFields()}
       </Fragment>
-      
     )
   }
 }
 
-export default ControlPanel
+const mapStateToProps = (state) => ({
+  videoStream: state.videoStream
+})
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    cameraToggle(toggle) {
+      dispatch(cameraToggle(toggle))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ControlPanel)
