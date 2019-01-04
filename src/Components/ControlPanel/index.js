@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { cameraToggle } from '../../Store/Actions'
+import { VIDEOSTREAM, POSEESTIMATION } from '../../Store/Actions/types'
 
 import Input from '../Input'
 import Select from '../Select'
@@ -29,30 +29,65 @@ class ControlPanel extends Component {
   }
 
   renderVideoStreamFields = () => {
-    return(<Container>
-      <Input label="Camera" type="checkbox" checked={this.props.videoStream.camera} action={this.props.cameraToggle} />
-      <Input label="Video" type="checkbox" checked={true} />
-      <Input label="Mirror" type="checkbox" checked={false} />
-      <Input label="Fullscreen" type="checkbox" checked={false} />
-      <Select key={this.state.active} label="Facing Mode" options={['User', 'Environment', 'Left', 'Right']} />
-      <Input label="Framerate" placeholder="fps" />
+    return(<Container key={this.state.active}>
+      <Input label="Camera" type="checkbox" 
+      checked={this.props.videoStream.camera} 
+      actionType={VIDEOSTREAM.CAMERA_TOGGLE} />
+
+      <Input label="Video" type="checkbox"
+      checked={this.props.videoStream.video}
+      actionType={VIDEOSTREAM.VIDEO_TOGGLE}  />
+
+      <Input label="Mirror" type="checkbox"
+      checked={this.props.videoStream.mirror}
+      actionType={VIDEOSTREAM.MIRROR_TOGGLE} />
+
+      <Input label="Fullscreen" type="checkbox"
+      checked={this.props.videoStream.fullscreen}
+      actionType={VIDEOSTREAM.FULLSCREEN_TOGGLE} />
+      
+      <Select key={this.state.active} label="Facing Mode" 
+      options={['User', 'Environment', 'Left', 'Right']}
+      value={this.props.videoStream.facingMode}
+      actionType={VIDEOSTREAM.FACINGMODE_UPDATE}
+      />
+
+      <Input label="Framerate" placeholder="fps"
+      value={this.props.videoStream.framerate}
+      actionType={VIDEOSTREAM.FRAMERATE_UPDATE}/>
     </Container>)
   }
 
   renderPoseEstimationFields = () => {
-    return(<Container>
+    return(<Container key={this.state.active}>
       <h1>Pose Estimation</h1>
-      <Input label="Skeleton" type="checkbox" checked={true} />
-      <Input label="Color" placeholder="#1b4c2a" />
-      <Input label="Flip Horizontal" type="checkbox" checked={false} />
-      <Select key={this.state.active} label="Pose Detection" options={['Single', 'Multiple']} />
-      <Input label="Image Scale Factor" placeholder="between 0.2 and 1.0" />
-      <Select label="Output Stride" options={[8, 16, 32]} />
+      <Input label="Skeleton" type="checkbox"
+      checked={this.props.poseEstimation.skeleton}
+      actionType={POSEESTIMATION.SKELETON_TOGGLE} />
+
+      <Input label="Color" placeholder="#1b4c2a"
+      value={this.props.poseEstimation.color}
+      actionType={POSEESTIMATION.COLOR_TOGGLE} />
+
+      <Input label="Flip Horizontal" type="checkbox"
+      checked={this.props.poseEstimation.flipHorizontal}
+      actionType={POSEESTIMATION.FLIPHORIZONTAL_TOGGLE} />
+
+      <Select key={this.state.active} label="Pose Detection" options={['Single', 'Multiple']} 
+      value={this.props.poseEstimation.poseDetection}
+      actionType={POSEESTIMATION.POSEDETECTION_UPDATE} />
+
+      <Input label="Image Scale Factor" placeholder="between 0.2 and 1.0"
+      value={this.props.poseEstimation.imageScaleFactor}
+      actionType={POSEESTIMATION.IMAGESCALEFACTOR_UPDATE} />
+      <Select label="Output Stride" options={[8, 16, 32]} 
+      value={this.props.poseEstimation.outputStride}
+      actionType={POSEESTIMATION.OUTPUTSTRIDE_UPDATE}/>
     </Container>)
   }
 
   renderSoundMappingFields = () => {
-    return(<Container>
+    return(<Container key={this.state.active}>
       <h1>Sound Mapping</h1>
     </Container>)
   }
@@ -72,7 +107,7 @@ class ControlPanel extends Component {
         return (<Container>
           <h1>Control Panel</h1>
           <Input label="Color" placeholder="#1b4c2a" />
-          <Input label="Camera" type="checkbox" checked={true} action={this.props.cameraToggle}/>
+          <Input label="Camera" type="checkbox" checked={true} />
           <Input label="Multiplier" type="number" checked={true} />
           <Select label={"Output Stride"} options={[8, 16, 32]} />
           <Select label={"Pose Detection"} options={['Single', 'Multiple']} />
@@ -98,15 +133,8 @@ class ControlPanel extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  videoStream: state.videoStream
+  videoStream: state.videoStream,
+  poseEstimation: state.poseEstimation,
 })
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    cameraToggle(toggle) {
-      dispatch(cameraToggle(toggle))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ControlPanel)
+export default connect(mapStateToProps, null)(ControlPanel)
