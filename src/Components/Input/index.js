@@ -13,7 +13,8 @@ export default class Input extends Component {
 
   handleChange = (event) => {
     if (this.props.type === "checkbox") {
-      this.setState({checked: (this.state.checked ? false : true) })
+      this.setState({checked: !this.state.checked })
+      this.props.action(!this.state.checked)
       console.log("Toggle:", this.state.checked)
     } else {
       this.setState({value: event.target.value})
@@ -41,4 +42,5 @@ Input.defaultProps = {
   value: "",
   placeholder: "",
   checked: false,
+  action: () => { console.log("No action assigned to this component.") },
 }
