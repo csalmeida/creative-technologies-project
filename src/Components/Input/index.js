@@ -1,12 +1,15 @@
 import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
+import { alternate, updateValue } from '../../Store/Actions'
+
 import { Container } from './styles'
 import ToggleSwitch from '../ToggleSwitch'
 
-export default class Input extends Component {
+class Input extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: '',
+      value: this.props.value,
       checked: this.props.checked,
     }
   }
@@ -14,10 +17,11 @@ export default class Input extends Component {
   handleChange = (event) => {
     if (this.props.type === "checkbox") {
       this.setState({checked: !this.state.checked })
-      this.props.action(!this.state.checked)
+      this.props.alternate(!this.state.checked, this.props.actionType)
       console.log("Toggle:", this.state.checked)
     } else {
       this.setState({value: event.target.value})
+      this.props.updateValue(event.target.value, this.props.actionType)
       console.log("Value:", this.state.value)
     }
   }
@@ -43,4 +47,18 @@ Input.defaultProps = {
   placeholder: "",
   checked: false,
   action: () => { console.log("No action assigned to this component.") },
+  actionType: null
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    alternate(toggle, type) {
+      dispatch(alternate(toggle, type))
+    },
+    updateValue(value, type) {
+      dispatch(updateValue(value, type))
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Input)
