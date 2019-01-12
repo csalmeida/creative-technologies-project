@@ -62,11 +62,11 @@ class ControlPanel extends Component {
     return(<Container key={this.state.active}>
       <h1>Pose Estimation</h1>
       <Input label="Skeleton" type="checkbox"
-      checked={this.props.poseEstimation.skeleton}
+      checked={this.props.poseEstimation.output.skeleton}
       actionType={POSEESTIMATION.SKELETON_TOGGLE} />
 
       <Input label="Color" placeholder="#1b4c2a"
-      value={this.props.poseEstimation.color}
+      value={this.props.poseEstimation.output.color}
       actionType={POSEESTIMATION.COLOR_UPDATE} />
 
       <Input label="Flip Horizontal" type="checkbox"

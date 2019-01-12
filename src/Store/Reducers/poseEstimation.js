@@ -5,7 +5,10 @@ export default function reducer(state = null, action) {
     case POSEESTIMATION.SKELETON_TOGGLE:
       return {
         ...state,
-        skeleton: !state.skeleton
+        output: {
+          ...state.output,
+          skeleton: !state.output.skeleton
+        }
       }
     case POSEESTIMATION.FLIPHORIZONTAL_TOGGLE:
       return {
@@ -25,7 +28,10 @@ export default function reducer(state = null, action) {
       case POSEESTIMATION.COLOR_UPDATE:
       return {
         ...state,
-        color: action.payload
+        output: {
+          ...state.output,
+          color: action.payload
+        }
       }
       case POSEESTIMATION.OUTPUTSTRIDE_UPDATE:
       return {

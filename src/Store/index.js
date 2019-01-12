@@ -11,13 +11,14 @@ const initialState = {
     framerate: 30
   },
   poseEstimation: {
-    skeleton: false,
-    color: "#FFFFFF",
-    
     flipHorizontal: false,
     detectionType: 'single',
     imageScaleFactor: 0.5,
-    outputStride: 8
+    outputStride: 8,
+    output: {
+      skeleton: false,
+      color: "#FFFFFF",
+    },
   },
   soundMapping: {}
 }
