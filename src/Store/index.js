@@ -3,12 +3,15 @@ import rootReducer from './Reducers'
 
 const initialState = {
   videoStream: {
+    width: 640,
+    height: 480,
     camera: false,
     video: false,
     mirror: false,
     fullscreen: false,
     facingMode: "user",
-    framerate: 30
+    framerate: 30,
+    aspectRatio: 2.5,
   },
   poseEstimation: {
     flipHorizontal: false,
