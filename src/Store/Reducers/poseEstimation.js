@@ -12,10 +12,10 @@ export default function reducer(state = null, action) {
         ...state,
         flipHorizontal: !state.flipHorizontal
       }
-      case POSEESTIMATION.POSEDETECTION_UPDATE:
+      case POSEESTIMATION.DETECTIONTYPE_UPDATE:
       return {
         ...state,
-        poseDetection: action.payload
+        detectionType: action.payload
       }
       case POSEESTIMATION.IMAGESCALEFACTOR_UPDATE:
       return {
