@@ -13,8 +13,11 @@ const initialState = {
   poseEstimation: {
     flipHorizontal: false,
     detectionType: 'single',
-    imageScaleFactor: 0.5,
-    outputStride: 8,
+    imageScaleFactor: 0.50,
+    outputStride: 16,
+    maxPoseDetections: 5,
+    scoreThreshold: 0.5,
+    nmsRadius: 20, 
     output: {
       skeleton: false,
       color: "#FFFFFF",
