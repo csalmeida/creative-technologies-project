@@ -18,7 +18,7 @@ const initialState = {
     maxPoseDetections: 5,
     scoreThreshold: 0.5,
     nmsRadius: 20,
-    multipler: 1.01, 
+    multiplier: 1.01, 
     output: {
       skeleton: false,
       color: "#FFFFFF",
