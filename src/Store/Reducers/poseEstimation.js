@@ -32,6 +32,31 @@ export default function reducer(state = null, action) {
         ...state,
         outputStride: action.payload
       }
+      case POSEESTIMATION.MULTIPLIER_UPDATE:
+      return {
+        ...state,
+        multiplier: action.payload
+      }
+      case POSEESTIMATION.MINCONFIDENCE_UPDATE:
+      return {
+        ...state,
+        minConfidence: action.payload
+      }
+      case POSEESTIMATION.MAXPOSEDETECTIONS_UPDATE:
+      return {
+        ...state,
+        maxPoseDetections: action.payload
+      }
+      case POSEESTIMATION.NMSRADIUS_UPDATE:
+      return {
+        ...state,
+        nmsRadius: action.payload
+      }
+      case POSEESTIMATION.SCORETHRESHOLD_UPDATE:
+      return {
+        ...state,
+        scoreThreshold: action.payload
+      }
     default:
       return state
   }
