@@ -67,7 +67,7 @@ class ControlPanel extends Component {
 
       <Input label="Color" placeholder="#1b4c2a"
       value={this.props.poseEstimation.color}
-      actionType={POSEESTIMATION.COLOR_TOGGLE} />
+      actionType={POSEESTIMATION.COLOR_UPDATE} />
 
       <Input label="Flip Horizontal" type="checkbox"
       checked={this.props.poseEstimation.flipHorizontal}
