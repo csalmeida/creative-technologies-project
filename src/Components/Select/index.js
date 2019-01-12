@@ -54,7 +54,9 @@ class Select extends Component {
     this.setState({
       selected: value,
     })
-    this.props.updateValue(value.toLowerCase(), this.props.actionType)
+
+    const formattedValue =  (typeof value === "number") ? value : value.toLowerCase()
+    this.props.updateValue(formattedValue, this.props.actionType)
   }
 
   render = () => (
