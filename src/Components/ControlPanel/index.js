@@ -74,8 +74,8 @@ class ControlPanel extends Component {
       actionType={POSEESTIMATION.FLIPHORIZONTAL_TOGGLE} />
 
       <Select key={this.state.active} label="Pose Detection" options={['Single', 'Multiple']} 
-      value={this.props.poseEstimation.poseDetection}
-      actionType={POSEESTIMATION.POSEDETECTION_UPDATE} />
+      value={this.props.poseEstimation.detectionType}
+      actionType={POSEESTIMATION.DETECTIONTYPE_UPDATE} />
 
       <Input label="Image Scale Factor" placeholder="between 0.2 and 1.0"
       value={this.props.poseEstimation.imageScaleFactor}

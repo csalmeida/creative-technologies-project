@@ -13,8 +13,9 @@ const initialState = {
   poseEstimation: {
     skeleton: false,
     color: "#FFFFFF",
+    
     flipHorizontal: false,
-    poseDetection: 'single',
+    detectionType: 'single',
     imageScaleFactor: 0.5,
     outputStride: 8
   },
