@@ -11,6 +11,7 @@ class App extends Component {
     return (
       <Provider store={Store}>
         <GlobalStyles />
+        <PoseNet />
         <ControlPanel />
       </Provider>
     )
