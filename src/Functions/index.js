@@ -7,15 +7,6 @@ function hexToRgb(hex) {
   } : null;
 }
 
-function componentToHex(c) {
-  var hex = c.toString(16);
-  return hex.length === 1 ? "0" + hex : hex;
-}
-
-function rgbToHex(r, g, b) {
-  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
-
 // A function to draw ellipses over the detected keypoints
 const drawKeypoints = (sketch, poses, color) => {
   // Loop through all the poses detected
@@ -37,6 +28,7 @@ const drawKeypoints = (sketch, poses, color) => {
 
 // A function to draw the skeletons
 const drawSkeleton = (sketch, poses, color) => {
+  console.log("LINES BEING DRAWN")
   // Loop through all the skeletons detected
   for (let i = 0; i < poses.length; i++) {
     let skeleton = poses[i].skeleton;
@@ -44,16 +36,22 @@ const drawSkeleton = (sketch, poses, color) => {
     for (let j = 0; j < skeleton.length; j++) {
       let partA = skeleton[j][0]
       let partB = skeleton[j][1]
-      sketch.fill(color.r,color.g,color.b)
+      sketch.stroke(color.r,color.g,color.b)
       sketch.line(partA.position.x, partA.position.y, partB.position.x, partB.position.y)
     }
   }
 }
 
-export const draw = (sketch, video, poses, color) => {
-  sketch.resizeCanvas(sketch.windowWidth, sketch.windowHeight)
-  sketch.image(video, 0, 0, video.width, video.height)
+export const draw = (sketch, video, poses, color, options = {skeleton: true}) => {
+  // Use .windowWidth and .windowHeight to make it larger. 
+  sketch.resizeCanvas(sketch.width, sketch.height)
+  if (options.video) {
+    sketch.image(video, 0, 0, video.width, video.height)
+  }
+  
   // We can call both functions to draw all keypoints and the skeletons
-  drawKeypoints(sketch, poses, hexToRgb(color))
-  drawSkeleton(sketch, poses, hexToRgb(color))
+  if (options.skeleton && poses)  {
+    drawKeypoints(sketch, poses, hexToRgb(color))
+    drawSkeleton(sketch, poses, hexToRgb(color))
+  }
 }

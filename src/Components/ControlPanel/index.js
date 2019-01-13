@@ -73,7 +73,7 @@ class ControlPanel extends Component {
       checked={this.props.poseEstimation.flipHorizontal}
       actionType={POSEESTIMATION.FLIPHORIZONTAL_TOGGLE} />
 
-      <Select key={this.state.active} label="Pose Detection" options={['Single', 'Multiple']} 
+      <Select label="Pose Detection" options={['Single', 'Multiple']} 
       value={this.props.poseEstimation.detectionType}
       actionType={POSEESTIMATION.DETECTIONTYPE_UPDATE} />
 
