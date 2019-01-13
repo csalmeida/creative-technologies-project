@@ -15,7 +15,7 @@ class PoseNet extends Component {
     this.container = React.createRef();
   }
 
-  componentDidMount() {
+  startPoseDetection = () => {
     // Creating a sound wave.
     // const wave = new p5.Oscillator()
     // wave.setType("sine")
@@ -24,10 +24,10 @@ class PoseNet extends Component {
     // wave.freq(200)
     // console.log("Wave", wave)
 
-    console.log("Props on mount: ", this.props)
+    console.log("Props on poseDetection: ", this.props)
 
     const sketch = new p5(() => {}, this.container.current)
-    sketch.createCanvas(this.props.videoStream.width, this.props.videoStream.width)
+    sketch.createCanvas(this.props.videoStream.width, this.props.videoStream.height)
     const constraints = {
       video: {
         width: sketch.width,
@@ -41,22 +41,28 @@ class PoseNet extends Component {
     const video = sketch.createCapture(constraints, p5.VIDEO)
     // console.log("width", sketch.width, "height", sketch.height);
     // console.log("P5 Video", sketch.VIDEO);
-    video.size(sketch.windowWidth, sketch.windowHeight)
+    // This affects the size of the video size. Use .windowWidth and .windowHeight to make it larger. 
+    video.size(sketch.width, sketch.height)
     const color = this.props.poseEstimation.output.color
+    const drawOptions = {
+      skeleton: this.props.poseEstimation.output.skeleton,
+      video: this.props.videoStream.video
+    }
     console.log(color)
 
     // Detects pose and hides video
     // This can come from the store now.
     const poseOptions = { 
-      imageScaleFactor: 0.2,
-      outputStride: 16,
-      flipHorizontal: false,
-      minConfidence: 0.5,
-      maxPoseDetections: 5,
-      scoreThreshold: 0.5,
-      nmsRadius: 20,
-      detectionType: 'single',
-      multiplier: 0.75,
+      ...this.poseEstimation
+      // imageScaleFactor: 0.2,
+      // outputStride: 16,
+      // flipHorizontal: false,
+      // //minConfidence: 0.5,
+      // maxPoseDetections: 5,
+      // scoreThreshold: 0.5,
+      // nmsRadius: 20,
+      // detectionType: 'single',
+      // multiplier: 1.01,
     }
     const poseNet = ml5.poseNet(video, poseOptions)
     poseNet.on('pose', function(poses) {
@@ -65,16 +71,25 @@ class PoseNet extends Component {
         // console.log("Poses", poses[0].pose.keypoints[0].position.x)
         // wave.freq(poses[0].pose.keypoints[0].position.x)
       }
-      draw(sketch, video, poses, color)
+      draw(sketch, video, poses, color, drawOptions)
     })
     video.hide()
   }
 
+  componentDidUpdate() {
+    this.props.videoStream.camera &&
+    this.startPoseDetection()
+  }
+
   render() {
     return(
+      this.props.videoStream.camera ? (
       <Fragment>
-        <Container ref={this.container} />
+        <Container ref={this.container} mirror={this.props.videoStream.mirror} />
       </Fragment>
+      ) : (
+        <p>Camera off.</p>
+      )
     )
   }
 }
