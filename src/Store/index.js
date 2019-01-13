@@ -6,8 +6,8 @@ const initialState = {
     width: 640,
     height: 480,
     camera: false,
-    video: false,
-    mirror: false,
+    video: true,
+    mirror: true,
     fullscreen: false,
     facingMode: "user",
     framerate: 30,
@@ -23,8 +23,8 @@ const initialState = {
     nmsRadius: 20,
     multiplier: 1.01, 
     output: {
-      skeleton: false,
-      color: "#FFFFFF",
+      skeleton: true,
+      color: "#f9e5de",
     },
   },
   soundMapping: {}
