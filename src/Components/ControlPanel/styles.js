@@ -35,5 +35,6 @@ justify-content: center;
 align-items: space-between;
 flex-wrap: wrap;
 padding: 2rem 1rem;
+background: ${palette.base}
 `
 
