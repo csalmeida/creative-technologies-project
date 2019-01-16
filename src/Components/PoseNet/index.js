@@ -17,13 +17,27 @@ class PoseNet extends Component {
 
   startPoseDetection = () => {
     // Creating a sound wave.
-    // const wave = new p5.Oscillator()
-    // wave.setType("sine")
-    // wave.start()
-    // wave.amp(0.1, 1)
-    // wave.freq(200)
-    // console.log("Wave", wave)
+    const waveNose = new p5.Oscillator()
+    waveNose.setType("sine")
+    waveNose.start()
+    waveNose.amp(0.1, 1)
+    waveNose.freq(220.00)
+    console.log("Wave", waveNose)
 
+    // const wave2 = new p5.Oscillator()
+    // wave2.setType("sine")
+    // wave2.start()
+    // wave2.amp(0.1, 1)
+    // wave2.freq(277.18)
+    // console.log("Wave", wave2)
+
+    // const wave3 = new p5.Oscillator()
+    // wave3.setType("sine")
+    // wave3.start()
+    // wave3.amp(0.1, 1)
+    // wave3.freq(329.63)
+    // console.log("Wave", wave3)
+    
     console.log("Props on poseDetection: ", this.props)
 
     const sketch = new p5(() => {}, this.container.current)
@@ -41,7 +55,7 @@ class PoseNet extends Component {
     const video = sketch.createCapture(constraints, p5.VIDEO)
     // console.log("width", sketch.width, "height", sketch.height);
     // console.log("P5 Video", sketch.VIDEO);
-    // This affects the size of the video size. Use .windowWidth and .windowHeight to make it larger. 
+    // This affects the size of the video size. Use .windowWidth and .windowHeight to make it larger. Required value to be changed on draw as well.
     video.size(sketch.width, sketch.height)
     const color = this.props.poseEstimation.output.color
     const drawOptions = {
@@ -49,6 +63,7 @@ class PoseNet extends Component {
       video: this.props.videoStream.video
     }
     console.log(color)
+    video.hide()
 
     // Detects pose and hides video
     // This can come from the store now.
@@ -69,11 +84,15 @@ class PoseNet extends Component {
       if (typeof poses[0] !== 'undefined' && typeof poses[0].pose !== 'undefined') {
         // Control sound signal (frequency)
         // console.log("Poses", poses[0].pose.keypoints[0].position.x)
-        // wave.freq(poses[0].pose.keypoints[0].position.x)
+        waveNose.freq(poses[0].pose.keypoints[9].position.x)
+        //waveNose.freq(poses[0].pose.keypoints[0].position.x)
+        //waveNose.amp(poses[0].pose.keypoints[0].position.y / 150)
+        console.log('Pose Data', poses[0])
       }
       draw(sketch, video, poses, color, drawOptions)
     })
-    video.hide()
+
+    console.log('Detection type: ', poseNet.detectionType)
   }
 
   componentDidUpdate() {
