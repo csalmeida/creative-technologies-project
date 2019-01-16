@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 
-class ML5 extends Component {
+class videoCanvas extends Component {
   constructor(props) {
     super(props);
     this.video = React.createRef();
@@ -103,4 +103,4 @@ class ML5 extends Component {
   }
 }
 
-export default ML5
+export default videoCanvas
