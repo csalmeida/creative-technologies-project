@@ -38,7 +38,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background-color: ${palette.base};
+    background-color: ${palette.darktone};
     color: ${palette.text};
     font-family: MiriamLibreRegular, monospace, sans-serif;
     margin: 0;
