@@ -1,4 +1,7 @@
 import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
+import { updateValue } from '../../Store/Actions'
+
 import { Container, Options, Option } from './styles'
 
 // Use svg as fall back in case CSS icon breaks.
@@ -30,7 +33,7 @@ const renderOptions = (state, select) => {
   }
 }
 
-export default class Select extends Component {
+class Select extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -51,6 +54,9 @@ export default class Select extends Component {
     this.setState({
       selected: value,
     })
+
+    const formattedValue =  (typeof value === "number") ? value : value.toLowerCase()
+    this.props.updateValue(formattedValue, this.props.actionType)
   }
 
   render = () => (
@@ -63,7 +69,7 @@ export default class Select extends Component {
       </Option>
       {renderOptions(this.state, this.selectOption)}
       <select>
-      { this.state.options.map( (option, index) => <option key={index} value={option} selected={this.state.selected === option}>
+      { this.state.options.map( (option, index) => <option key={index} value={option} defaultValue={this.state.selected === option}>
       {option}
       </option>
       )}
@@ -77,4 +83,15 @@ Select.defaultProps = {
   label: 'Options:',
   open: false,
   options: ["Empty"],
+  actionType: null,
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateValue(value, type) {
+      dispatch(updateValue(value, type))
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Select)

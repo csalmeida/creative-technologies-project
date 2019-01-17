@@ -1,15 +1,19 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
+import { Provider } from 'react-redux'
+import { GlobalStyles } from './Styles'
+import { Store } from './Store'
+
 import PoseNet from './Components/PoseNet'
 import ControlPanel from './Components/ControlPanel'
-import { GlobalStyles } from './Styles'
 
 class App extends Component {
   render() {
     return (
-      <Fragment>
+      <Provider store={Store}>
         <GlobalStyles />
+        <PoseNet />
         <ControlPanel />
-      </Fragment>
+      </Provider>
     )
   }
 }
