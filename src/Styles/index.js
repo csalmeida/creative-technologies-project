@@ -1,10 +1,10 @@
 import { createGlobalStyle } from "styled-components"
 
-import MiriamLibreRegular from '../Assets/Fonts/MiriamLibre-Regular.ttf'
-import MiriamLibreBold from '../Assets/Fonts/MiriamLibre-Bold.ttf'
+import MiriamLibreRegular from "../Assets/Fonts/MiriamLibre-Regular.ttf"
+import MiriamLibreBold from "../Assets/Fonts/MiriamLibre-Bold.ttf"
 
-import { palette } from './colors'
-import { media } from './media'
+import { palette } from "./colors"
+import { media } from "./media"
 
 export const GlobalStyles = createGlobalStyle`
   @font-face {

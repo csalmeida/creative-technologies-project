@@ -1,18 +1,18 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
-import * as p5 from 'p5'
+import React, { Component, Fragment } from "react"
+import { connect } from "react-redux"
+import * as p5 from "p5"
 // Add .min for production version (this will turn off debug mode)
 import "p5/lib/addons/p5.dom"
 import "p5/lib/addons/p5.sound"
-import * as ml5 from 'ml5'
-import { Container } from './styles'
+import * as ml5 from "ml5"
+import { Container } from "./styles"
 
-import { draw } from '../../Functions'
+import { draw } from "../../Functions"
 
 class PoseNet extends Component {
   constructor(props) {
-    super(props);
-    this.container = React.createRef();
+    super(props)
+    this.container = React.createRef()
   }
 
   startPoseDetection = () => {
@@ -22,7 +22,7 @@ class PoseNet extends Component {
     waveNose.setType("sine")
     waveNose.start()
     waveNose.amp(0.1, 1)
-    waveNose.freq(220.00)
+    waveNose.freq(220.0)
     console.log("Wave", waveNose)
 
     // const wave2 = new p5.Oscillator()
@@ -38,11 +38,14 @@ class PoseNet extends Component {
     // wave3.amp(0.1, 1)
     // wave3.freq(329.63)
     // console.log("Wave", wave3)
-    
+
     console.log("Props on poseDetection: ", this.props)
 
     const sketch = new p5(() => {}, this.container.current)
-    sketch.createCanvas(this.props.videoStream.width, this.props.videoStream.height)
+    sketch.createCanvas(
+      this.props.videoStream.width,
+      this.props.videoStream.height,
+    )
     const constraints = {
       video: {
         width: sketch.width,
@@ -51,7 +54,7 @@ class PoseNet extends Component {
         frameRate: this.props.videoStream.frameRate,
         aspectRatio: this.props.videoStream.aspectRatio,
       },
-      audio: false
+      audio: false,
     }
     this.video = sketch.createCapture(constraints, p5.VIDEO)
     const video = this.video
@@ -62,19 +65,17 @@ class PoseNet extends Component {
     const color = this.props.poseEstimation.output.color
     const drawOptions = {
       skeleton: this.props.poseEstimation.output.skeleton,
-      video: this.props.videoStream.video
+      video: this.props.videoStream.video,
     }
     console.log(color)
     video.hide()
     console.log("Video: ", video)
     window.x = video
 
-
-
     // Detects pose and hides video
     // This can come from the store now.
-    const poseOptions = { 
-      ...this.props.poseEstimation
+    const poseOptions = {
+      ...this.props.poseEstimation,
       // imageScaleFactor: 0.2,
       // outputStride: 16,
       // flipHorizontal: false,
@@ -86,8 +87,11 @@ class PoseNet extends Component {
       // multiplier: 1.01,
     }
     const poseNet = ml5.poseNet(video, poseOptions)
-    poseNet.on('pose', function(poses) {
-      if (typeof poses[0] !== 'undefined' && typeof poses[0].pose !== 'undefined') {
+    poseNet.on("pose", function(poses) {
+      if (
+        typeof poses[0] !== "undefined" &&
+        typeof poses[0].pose !== "undefined"
+      ) {
         // Control sound signal (frequency)
         // console.log("Poses", poses[0].pose.keypoints[0].position.x)
         waveNose.freq(poses[0].pose.keypoints[9].position.x)
@@ -122,21 +126,25 @@ class PoseNet extends Component {
   }
 
   render() {
-    return(
-      this.props.videoStream.camera ? (
+    return this.props.videoStream.camera ? (
       <Fragment>
-        <Container ref={this.container} mirror={this.props.videoStream.mirror} />
+        <Container
+          ref={this.container}
+          mirror={this.props.videoStream.mirror}
+        />
       </Fragment>
-      ) : (
-        <p>Camera off.</p>
-      )
+    ) : (
+      <p>Camera off.</p>
     )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   videoStream: state.videoStream,
   poseEstimation: state.poseEstimation,
 })
 
-export default connect(mapStateToProps, null)(PoseNet)
+export default connect(
+  mapStateToProps,
+  null,
+)(PoseNet)

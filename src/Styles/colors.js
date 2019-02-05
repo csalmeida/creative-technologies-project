@@ -1,7 +1,7 @@
 const color = {
   white: "#FFFFFF",
   lightGrey: "#EBEBEB",
-  mediumGrey: '#D8D8D8',
+  mediumGrey: "#D8D8D8",
   darkGrey: "#979797",
   black: "#090909",
   mistyRose: "#F9E5DE",
@@ -19,7 +19,7 @@ const palette = {
   text: color.mistyRose,
   lighttone: color.unitedNationsBlue,
   midtone: color.violetBlue,
-  darktone: color.cobaltBlue
+  darktone: color.cobaltBlue,
 }
 
-export { palette };
+export { palette }

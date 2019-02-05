@@ -1,12 +1,11 @@
-import { css } from 'styled-components'
+import { css } from "styled-components"
 
 const sizes = {
   giant: 1600,
   desktop: 1200,
   tablet: 1024,
-  phone: 300
+  phone: 300,
 }
-
 
 export const media = Object.keys(sizes).reduce((accumulator, label) => {
   const emSize = sizes[label] / 16

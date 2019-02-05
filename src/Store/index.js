@@ -1,5 +1,5 @@
-import { createStore } from 'redux'
-import rootReducer from './Reducers'
+import { createStore } from "redux"
+import rootReducer from "./Reducers"
 
 const initialState = {
   videoStream: {
@@ -15,19 +15,23 @@ const initialState = {
   },
   poseEstimation: {
     flipHorizontal: false,
-    detectionType: 'single',
+    detectionType: "single",
     imageScaleFactor: 0.5,
     outputStride: 32,
     maxPoseDetections: 1,
     scoreThreshold: 0.5,
     nmsRadius: 20,
-    multiplier: 1.01, 
+    multiplier: 1.01,
     output: {
       skeleton: true,
       color: "#f9e5de",
     },
   },
-  soundMapping: {}
+  soundMapping: {},
 }
 
-export const Store = createStore(rootReducer, initialState,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+export const Store = createStore(
+  rootReducer,
+  initialState,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+)

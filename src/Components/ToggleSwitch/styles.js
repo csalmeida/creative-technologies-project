@@ -1,8 +1,8 @@
-import styled, { css, keyframes } from 'styled-components'
-import { palette } from '../../Styles/colors'
+import styled, { css, keyframes } from "styled-components"
+import { palette } from "../../Styles/colors"
 
 // Keeps Switch width propotionate to Circle.
-const circleWidth = 1;
+const circleWidth = 1
 
 const forwards = keyframes`
   from {
@@ -10,13 +10,13 @@ const forwards = keyframes`
     
   }
   to {
-    left: ${(circleWidth * 2.5) - circleWidth + "rem"};
+    left: ${circleWidth * 2.5 - circleWidth + "rem"};
   }
 `
 
 const reverse = keyframes`
   from {
-    left: ${(circleWidth * 2.5) - circleWidth + "rem"};
+    left: ${circleWidth * 2.5 - circleWidth + "rem"};
     
   }
   to {
@@ -25,16 +25,16 @@ const reverse = keyframes`
 `
 
 const moveHorizontally = css`
-  animation: ${props => props.toggled ? forwards : reverse } .3s forwards 1;
+  animation: ${props => (props.toggled ? forwards : reverse)} 0.3s forwards 1;
 `
 
 export const Switch = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: ${props => props.toggled ? "flex-end" : "flex-start"};
+  justify-content: ${props => (props.toggled ? "flex-end" : "flex-start")};
   position: relative;
   background: ${palette.darktone};
-  width: ${(circleWidth * 2.5) + "rem"};
+  width: ${circleWidth * 2.5 + "rem"};
   padding: 0.2rem;
   border-radius: 1rem;
   cursor: pointer;
@@ -45,6 +45,6 @@ export const Circle = styled.div`
   background: ${palette.highlight};
   width: ${circleWidth + "rem"};
   height: ${circleWidth + "rem"};
-  border-radius:50%;
+  border-radius: 50%;
   animation: ${moveHorizontally};
 `
