@@ -17,7 +17,8 @@ class PoseNet extends Component {
 
   startPoseDetection = () => {
     // Creating a sound wave.
-    const waveNose = new p5.Oscillator()
+    this.wave = new p5.Oscillator()
+    const waveNose = this.wave
     waveNose.setType("sine")
     waveNose.start()
     waveNose.amp(0.1, 1)
@@ -52,7 +53,8 @@ class PoseNet extends Component {
       },
       audio: false
     }
-    const video = sketch.createCapture(constraints, p5.VIDEO)
+    this.video = sketch.createCapture(constraints, p5.VIDEO)
+    const video = this.video
     // console.log("width", sketch.width, "height", sketch.height);
     // console.log("P5 Video", sketch.VIDEO);
     // This affects the size of the video size. Use .windowWidth and .windowHeight to make it larger. Required value to be changed on draw as well.
@@ -64,11 +66,15 @@ class PoseNet extends Component {
     }
     console.log(color)
     video.hide()
+    console.log("Video: ", video)
+    window.x = video
+
+
 
     // Detects pose and hides video
     // This can come from the store now.
     const poseOptions = { 
-      ...this.poseEstimation
+      ...this.props.poseEstimation
       // imageScaleFactor: 0.2,
       // outputStride: 16,
       // flipHorizontal: false,
@@ -87,17 +93,32 @@ class PoseNet extends Component {
         waveNose.freq(poses[0].pose.keypoints[9].position.x)
         //waveNose.freq(poses[0].pose.keypoints[0].position.x)
         //waveNose.amp(poses[0].pose.keypoints[0].position.y / 150)
-        console.log('Pose Data', poses[0])
+        // console.log('Pose Data', poses[0])
       }
       draw(sketch, video, poses, color, drawOptions)
     })
 
-    console.log('Detection type: ', poseNet.detectionType)
+    // console.log('Detection type: ', poseNet.detectionType)
   }
 
-  componentDidUpdate() {
-    this.props.videoStream.camera &&
-    this.startPoseDetection()
+  // componentDidUpdate() {
+  //   this.props.videoStream.camera &&
+  //   this.startPoseDetection()
+  // }
+
+  stopPoseDetection() {
+    this.video.stop()
+    this.wave.stop()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.videoStream.camera && this.props.videoStream.camera) {
+      this.startPoseDetection()
+    }
+
+    if (prevProps.videoStream.camera && !this.props.videoStream.camera) {
+      this.stopPoseDetection()
+    }
   }
 
   render() {

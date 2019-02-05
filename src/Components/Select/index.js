@@ -18,28 +18,11 @@ const svgTriangle = () => {return(
 </Fragment>
 )}
 
-const renderOptions = (state, select) => {
-  let {options, open, selected } = state
-  if (open) {
-    return options.map( (option, index) => <Option
-    key={index}
-    onClick={() => select(option)}
-    selected={selected === option}
-    >
-      {console.log("Option:", option)}
-      {option}
-      </Option>
-    )
-  }
-}
-
 class Select extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: props.open,
-      options: props.options,
-      selected: props.options[0],
+      open: false,
     }
   }
 
@@ -51,10 +34,6 @@ class Select extends Component {
   }
 
   selectOption = (value) => {
-    this.setState({
-      selected: value,
-    })
-
     const formattedValue =  (typeof value === "number") ? value : value.toLowerCase()
     this.props.updateValue(formattedValue, this.props.actionType)
   }
@@ -64,12 +43,24 @@ class Select extends Component {
     <label>{this.props.label}</label>
     <Options onClick={() => this.open()} open={this.state.open}>
       <Option open={this.state.open}>
-        {this.state.selected}
+        {this.props.value}
         {svgTriangle()}
       </Option>
-      {renderOptions(this.state, this.selectOption)}
+
+      { this.state.open ? (
+          this.props.options.map( (option, index) => <Option
+          key={index}
+          onClick={() => this.selectOption(option)}
+          selected={this.props.value === option}
+          >
+            {console.log("Option:", option)}
+            {option}
+            </Option>
+          )
+      ) : null }
+
       <select>
-      { this.state.options.map( (option, index) => <option key={index} value={option} defaultValue={this.state.selected === option}>
+      { this.props.options.map( (option, index) => <option key={index} value={option} defaultValue={this.props.value === option}>
       {option}
       </option>
       )}

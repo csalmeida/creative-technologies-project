@@ -16,8 +16,8 @@ const initialState = {
   poseEstimation: {
     flipHorizontal: false,
     detectionType: 'single',
-    imageScaleFactor: 1,
-    outputStride: 16,
+    imageScaleFactor: 0.5,
+    outputStride: 32,
     maxPoseDetections: 1,
     scoreThreshold: 0.5,
     nmsRadius: 20,

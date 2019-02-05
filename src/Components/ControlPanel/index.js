@@ -79,25 +79,31 @@ class ControlPanel extends Component {
 
       <Input label="Image Scale Factor" placeholder="between 0.2 and 1.0"
       value={this.props.poseEstimation.imageScaleFactor}
+      type="number"
       actionType={POSEESTIMATION.IMAGESCALEFACTOR_UPDATE} />
 
-      <Select label="Output Stride" options={[8, 16, 32]} 
+      <Select label="Output Stride" options={[8, 16, 32]}
+      type="number"
       value={this.props.poseEstimation.outputStride}
       actionType={POSEESTIMATION.OUTPUTSTRIDE_UPDATE}/>
 
-      <Select label="Multiplier" options={[1.01, 1.0, 0.75, 0.50]} 
+      <Select label="Multiplier" options={[1.01, 1.0, 0.75, 0.50]}
+      type="number"
       value={this.props.poseEstimation.multiplier}
       actionType={POSEESTIMATION.MULTIPLIER_UPDATE}/>
 
       <Input label="Max Pose Detections"
+      type="number"
       value={this.props.poseEstimation.maxPoseDetections}
       actionType={POSEESTIMATION.MAXPOSEDETECTIONS_UPDATE} />
 
-      <Input label="Score Threshold" 
+      <Input label="Score Threshold"
+      type="number"
       value={this.props.poseEstimation.scoreThreshold}
       actionType={POSEESTIMATION.SCORETHRESHOLD_UPDATE} />
 
       <Input label="NMS Radius" placeholder="Surpression distance"
+      type="number"
       value={this.props.poseEstimation.nmsRadius}
       actionType={POSEESTIMATION.NMSRADIUS_UPDATE} />
     </Container>)

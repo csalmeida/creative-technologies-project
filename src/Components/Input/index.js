@@ -20,8 +20,9 @@ class Input extends Component {
       this.props.alternate(!this.state.checked, this.props.actionType)
       console.log("Toggle:", this.state.checked)
     } else {
-      this.setState({value: event.target.value})
-      this.props.updateValue(event.target.value, this.props.actionType)
+      const newValue = this.props.type === "number" ? parseFloat(event.target.value) : event.target.value
+      this.setState({value: newValue})
+      this.props.updateValue(newValue, this.props.actionType)
       console.log("Value:", this.state.value)
     }
   }

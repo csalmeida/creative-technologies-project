@@ -28,7 +28,7 @@ const drawKeypoints = (sketch, poses, color) => {
 
 // A function to draw the skeletons
 const drawSkeleton = (sketch, poses, color) => {
-  console.log("LINES BEING DRAWN")
+  // console.log("LINES BEING DRAWN")
   // Loop through all the skeletons detected
   for (let i = 0; i < poses.length; i++) {
     let skeleton = poses[i].skeleton;
