@@ -12,3 +12,7 @@ npm start
 ## Build
 1. Set `homepage` path at `package.json`
 2. Run `npm run build`
+
+## Commits
+This project uses husky and prettier so there might be errors when commiting.
+Please run `npm run fix-formatting` before commiting in order to prevent errors.
