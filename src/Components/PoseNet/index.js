@@ -8,6 +8,7 @@ import * as ml5 from "ml5"
 import { Container } from "./styles"
 
 import { draw } from "../../Functions"
+import { singleNote, envelope, createEnvelope } from "../../Functions/sound"
 
 class PoseNet extends Component {
   constructor(props) {
@@ -17,27 +18,11 @@ class PoseNet extends Component {
 
   startPoseDetection = () => {
     // Creating a sound wave.
-    this.wave = new p5.Oscillator()
-    const waveNose = this.wave
-    waveNose.setType("sine")
-    waveNose.start()
-    waveNose.amp(0.1, 1)
-    waveNose.freq(220.0)
-    console.log("Wave", waveNose)
-
-    // const wave2 = new p5.Oscillator()
-    // wave2.setType("sine")
-    // wave2.start()
-    // wave2.amp(0.1, 1)
-    // wave2.freq(277.18)
-    // console.log("Wave", wave2)
-
-    // const wave3 = new p5.Oscillator()
-    // wave3.setType("sine")
-    // wave3.start()
-    // wave3.amp(0.1, 1)
-    // wave3.freq(329.63)
-    // console.log("Wave", wave3)
+    // const modeOne = singleNote(false)
+    // this.modeOne = modeOne
+    const modeTwo = createEnvelope()
+    singleNote(false).amp(modeTwo)
+    this.modeTwo = modeTwo
 
     console.log("Props on poseDetection: ", this.props)
 
@@ -70,7 +55,6 @@ class PoseNet extends Component {
     console.log(color)
     video.hide()
     console.log("Video: ", video)
-    window.x = video
 
     // Detects pose and hides video
     // This can come from the store now.
@@ -86,19 +70,46 @@ class PoseNet extends Component {
       // detectionType: 'single',
       // multiplier: 1.01,
     }
-    const poseNet = ml5.poseNet(video, poseOptions)
+
+    this.posePlayedFirst = false
+
+    const poseNet = ml5.poseNet(video, poseOptions, () => {
+      console.log("model ready")
+    })
+    console.log("PoseNet", poseNet)
+    window.x = poseNet
     poseNet.on("pose", function(poses) {
       if (
         typeof poses[0] !== "undefined" &&
         typeof poses[0].pose !== "undefined"
       ) {
         // Control sound signal (frequency)
-        // console.log("Poses", poses[0].pose.keypoints[0].position.x)
-        waveNose.freq(poses[0].pose.keypoints[9].position.x)
-        //waveNose.freq(poses[0].pose.keypoints[0].position.x)
-        //waveNose.amp(poses[0].pose.keypoints[0].position.y / 150)
+        //modeOne.freq(poses[0].pose.keypoints[9].position.x)
+        if (!this.posePlayed) {
+          console.log("Pose played?", this.posePlayed)
+          modeTwo.play()
+          this.posePlayed = true
+          console.log("Pose played?", this.posePlayed)
+        }
         // console.log('Pose Data', poses[0])
       }
+
+      if (
+        typeof poses[1] !== "undefined" &&
+        typeof poses[1].pose !== "undefined"
+      ) {
+        if (!this.posePlayed) {
+          console.log("Pose played?", this.posePlayed)
+          modeTwo.play()
+          this.posePlayed = true
+          console.log("Pose played?", this.posePlayed)
+        }
+      }
+
+      if (poses.length === 0) {
+        this.posePlayed = false
+      }
+
       draw(sketch, video, poses, color, drawOptions)
     })
 
@@ -112,7 +123,8 @@ class PoseNet extends Component {
 
   stopPoseDetection() {
     this.video.stop()
-    this.wave.stop()
+    // Turn sounds off here as well.
+    // this.modeOne.stop()
   }
 
   componentDidUpdate(prevProps) {
