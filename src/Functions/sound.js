@@ -2,13 +2,13 @@ import * as p5 from "p5"
 import "p5/lib/addons/p5.sound"
 
 // Creating a sound wave.
-export const singleNote = (options = { amplitude: false, frequency: 200 }) => {
+export const singleNote = (frequency = 200, amplitude = false) => {
   const wave = new p5.Oscillator()
   wave.setType("sine")
-  if (options.amplitude) {
+  if (amplitude) {
     wave.amp(0.1, 1)
   }
-  wave.freq(options.frequency)
+  wave.freq(frequency)
   wave.start()
   return wave
 }
