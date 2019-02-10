@@ -23,7 +23,7 @@ class PoseNet extends Component {
     // this.modeOne = modeOne
 
     const filter = new p5.BandPass(),
-    noise = new p5.Noise()
+      noise = new p5.Noise()
     noise.disconnect()
     noise.connect(filter)
     noise.start()
@@ -169,7 +169,7 @@ class PoseNet extends Component {
       //   }, and Perfect Fifth is ${this.posePlayedPerfectFifth}`)
       //   console.log("Poses: ", poses)
       // }
-      
+
       // Mode 3.
       // if (
       //   typeof poses[0] !== "undefined" &&
