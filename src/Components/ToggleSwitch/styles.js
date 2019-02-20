@@ -42,7 +42,7 @@ export const Switch = styled.div`
 
 export const Circle = styled.div`
   position: relative;
-  background: ${palette.highlight};
+  background: ${props => (props.toggled ? palette.highlight : palette.midtone)};
   width: ${circleWidth + "rem"};
   height: ${circleWidth + "rem"};
   border-radius: 50%;
