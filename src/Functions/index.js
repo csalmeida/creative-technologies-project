@@ -1,3 +1,3 @@
-import { draw } from "./draw"
+import { draw, drawColor } from "./draw"
 
-export { draw }
+export { draw, drawColor }

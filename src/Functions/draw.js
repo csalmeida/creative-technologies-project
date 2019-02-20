@@ -1,3 +1,5 @@
+import { palette } from "../Styles/colors"
+
 function hexToRgb(hex) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
   return result
@@ -45,6 +47,37 @@ const drawSkeleton = (sketch, poses, color) => {
         partB.position.x,
         partB.position.y,
       )
+    }
+  }
+}
+
+export const drawColor = (
+  sketch,
+  video,
+  poses,
+  color,
+  options = { skeleton: true },
+) => {
+  // Use .windowWidth and .windowHeight to make it larger.
+  sketch.resizeCanvas(sketch.width, sketch.height)
+  if (options.video) {
+    sketch.image(video, 0, 0, video.width, video.height)
+  }
+
+  // We can call both functions to draw all keypoints and the skeletons
+  if (options.skeleton && poses) {
+    const third = sketch.width / 3
+    let position = poses[0].pose.keypoints[0].position.x
+
+    if (position >= 0 && position <= third) {
+      drawKeypoints(sketch, poses, hexToRgb("#f02d3a"))
+      drawSkeleton(sketch, poses, hexToRgb("#f02d3a"))
+    } else if (position >= third && position <= third * 2) {
+      drawKeypoints(sketch, poses, hexToRgb(palette.highlight))
+      drawSkeleton(sketch, poses, hexToRgb(palette.highlight))
+    } else if (position >= third * 2 && position <= third * 3) {
+      drawKeypoints(sketch, poses, hexToRgb(palette.text))
+      drawSkeleton(sketch, poses, hexToRgb(palette.text))
     }
   }
 }
