@@ -7,14 +7,14 @@ import "p5/lib/addons/p5.sound"
 import * as ml5 from "ml5"
 import { Container } from "./styles"
 
-import { draw, drawColor } from "../../Functions"
+import { draw, drawColorMapping } from "../../Functions"
 import { singleNote, createEnvelope } from "../../Functions/sound"
+import { palette } from "../../Styles/colors"
 
 class PoseNet extends Component {
   constructor(props) {
     super(props)
     this.container = React.createRef()
-    window.p5 = p5
   }
 
   startPoseDetection = () => {
@@ -51,6 +51,7 @@ class PoseNet extends Component {
       this.props.videoStream.width,
       this.props.videoStream.height,
     )
+    window.sketch = sketch
     const constraints = {
       video: {
         width: sketch.width,
@@ -193,10 +194,9 @@ class PoseNet extends Component {
         typeof poses[0] !== "undefined" &&
         typeof poses[0].pose !== "undefined"
       ) {
-        drawColor(sketch, video, poses, color, drawOptions)
+        drawColorMapping(sketch, video, poses, palette.highlight, drawOptions)
       }
     })
-
     // console.log('Detection type: ', poseNet.detectionType)
   }
 
