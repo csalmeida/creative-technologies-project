@@ -11,15 +11,14 @@ const color = {
   maastrichtBlue: "#01023A",
   cobaltBlue: "#2D308A",
   violetBlue: "#454BAA",
+  redOrange: "#F9564F",
 }
 
-const palette = {
+export const palette = {
   base: color.slateBlue,
-  highlight: color.frenchMauve,
+  highlight: color.redOrange,
   text: color.mistyRose,
   lighttone: color.unitedNationsBlue,
   midtone: color.violetBlue,
   darktone: color.cobaltBlue,
 }
-
-export { palette }
