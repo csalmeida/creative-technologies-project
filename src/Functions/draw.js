@@ -51,7 +51,7 @@ const drawSkeleton = (sketch, poses, color) => {
   }
 }
 
-export const drawColor = (
+export const drawColorByThirds = (
   sketch,
   video,
   poses,
@@ -79,6 +79,44 @@ export const drawColor = (
       drawKeypoints(sketch, poses, hexToRgb(palette.text))
       drawSkeleton(sketch, poses, hexToRgb(palette.text))
     }
+  }
+}
+
+export const drawColorMapping = (
+  sketch,
+  video,
+  poses,
+  hex,
+  options = { skeleton: true },
+) => {
+  // Use .windowWidth and .windowHeight to make it larger.
+  sketch.resizeCanvas(sketch.width, sketch.height)
+  if (options.video) {
+    sketch.image(video, 0, 0, video.width, video.height)
+  }
+  if (options.skeleton && poses) {
+    let rangeR = sketch.map(
+      poses[0].pose.keypoints[9].position.x,
+      50,
+      sketch.width,
+      0,
+      255,
+      true,
+    )
+    let rangeG = sketch.map(
+      poses[0].pose.keypoints[9].position.x,
+      sketch.width,
+      100,
+      0,
+      255,
+      true,
+    )
+    let color = hexToRgb(hex)
+    color.r = rangeR
+    color.g = rangeG
+    // color.b = 0
+    drawKeypoints(sketch, poses, color)
+    drawSkeleton(sketch, poses, color)
   }
 }
 
