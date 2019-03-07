@@ -5,7 +5,7 @@ import * as p5 from "p5"
 import "p5/lib/addons/p5.dom"
 import "p5/lib/addons/p5.sound"
 import * as ml5 from "ml5"
-import { Container } from "./styles"
+import { Container, Message } from "./styles"
 
 import { draw, drawColorMapping } from "../../Functions"
 import { singleNote, createEnvelope } from "../../Functions/sound"
@@ -92,6 +92,7 @@ class PoseNet extends Component {
     })
     console.log("PoseNet", poseNet)
     window.x = poseNet
+    window.poseEstimation = this.props.poseEstimation
     poseNet.on("pose", function(poses) {
       // Mode 1.
       // if (
@@ -190,6 +191,7 @@ class PoseNet extends Component {
       //   // console.log('Pose Data', poses[0])
       // }
       window.poses = poses
+      console.log("Poses: ", poses)
       if (
         typeof poses[0] !== "undefined" &&
         typeof poses[0].pose !== "undefined"
@@ -226,7 +228,7 @@ class PoseNet extends Component {
         />
       </Fragment>
     ) : (
-      <p>Camera off.</p>
+      <Message>Turn camera on to start.</Message>
     )
   }
 }

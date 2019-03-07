@@ -1,12 +1,13 @@
 import styled, { css } from "styled-components"
 import { palette } from "../../Styles/colors"
 
-const Container = styled.div`
+export const Container = styled.div`
   width: 100%;
   /* border: red 2px solid; */
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
 
   canvas {
     background: ${palette.darktone};
@@ -23,4 +24,6 @@ const Container = styled.div`
   }
 `
 
-export { Container }
+export const Message = styled.p`
+  text-align: center;
+`
