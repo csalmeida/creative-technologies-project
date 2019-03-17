@@ -66,8 +66,17 @@ export const stopAllNotes = notes => {
 */
 export const theremin = (poses, note) => {
   if (typeof poses[0] !== "undefined" && typeof poses[0].pose !== "undefined") {
-    // Control sound signal (frequency) based on left wrist's position.
-    note.freq(poses[0].pose.keypoints[9].position.x)
-    console.log("Pose Data", poses[0])
+    if (!Array.isArray(note) || note.length === 1) {
+      // Control sound signal (frequency) based on left wrist's position.
+      note.freq(poses[0].pose.keypoints[9].position.x)
+      console.log("Pose Data", poses[0])
+    }
+
+    if (Array.isArray(note) && note.length > 1) {
+      // Control sound signal (frequency)
+      note[0].freq(poses[0].pose.keypoints[9].position.y)
+      note[1].freq(poses[0].pose.keypoints[0].position.x)
+      // console.log('Pose Data', poses[0])
+    }
   }
 }
