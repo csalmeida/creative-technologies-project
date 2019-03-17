@@ -23,7 +23,13 @@ class PoseNet extends Component {
   }
 
   startPoseDetection = () => {
-    const notes = [singleNote(220.0)]
+    const notes = [singleNote(220.0), singleNote(392.0)]
+
+    const envelopes = [
+      singleNote(261.63).amp(createEnvelope()),
+      singleNote(311.13).amp(createEnvelope()),
+      singleNote(392.0).amp(createEnvelope()),
+    ]
 
     this.notes = notes
     // Creating a sound wave.
@@ -110,7 +116,7 @@ class PoseNet extends Component {
       //   case 1:
       //     if (!this.posePlayedRoot) {
       //       console.log("Pose played?", this.posePlayedRoot)
-      //       root.play()
+      //       notes[1].play()
       //       this.posePlayedRoot = true
 
       //       this.posePlayedMinThird = false
@@ -126,7 +132,7 @@ class PoseNet extends Component {
       //   case 2:
       //     if (!this.posePlayedMinThird) {
       //       console.log("Pose played?", this.posePlayedMinThird)
-      //       minThird.play()
+      //       notes[2].play()
       //       this.posePlayedMinThird = true
 
       //       this.posePlayedPerfectFifth = false
@@ -141,7 +147,7 @@ class PoseNet extends Component {
       //   case 3:
       //     if (!this.posePlayedPerfectFifth) {
       //       console.log("Pose played?", this.posePlayedPerfectFifth)
-      //       perfectFifth.play()
+      //       notes[3].play()
       //       this.posePlayedPerfectFifth = true
       //       console.log(`Pose number is now: ${poses.length}
       //   Previous was ${this.previousLength}
@@ -175,7 +181,7 @@ class PoseNet extends Component {
       //   console.log("Poses: ", poses)
       // }
       window.poses = poses
-      console.log("Poses: ", poses)
+      //console.log("Poses: ", poses)
       if (
         typeof poses[0] !== "undefined" &&
         typeof poses[0].pose !== "undefined"
@@ -189,6 +195,7 @@ class PoseNet extends Component {
   // Turns off video and sound.
   stopPoseDetection() {
     this.video.stop()
+    console.log("Notes: ", this.notes)
     stopAllNotes(this.notes)
   }
 
