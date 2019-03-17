@@ -7,7 +7,7 @@ import "p5/lib/addons/p5.sound"
 import * as ml5 from "ml5"
 import { Container, Message } from "./styles"
 
-import { draw, drawColorMapping } from "../../Functions"
+import { draw, drawColorMapping } from "../../Functions/draw"
 import { singleNote, createEnvelope } from "../../Functions/sound"
 import { palette } from "../../Styles/colors"
 
@@ -19,7 +19,7 @@ class PoseNet extends Component {
 
   startPoseDetection = () => {
     // Creating a sound wave.
-    // const modeOne = singleNote(220.00)
+    // const modeOne = singleNote(220.0)
     // this.modeOne = modeOne
     // const modeOneOctave = singleNote(523.25)
     // this.modeOneOctave = modeOneOctave
