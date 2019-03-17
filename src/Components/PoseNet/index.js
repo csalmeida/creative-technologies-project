@@ -8,7 +8,12 @@ import * as ml5 from "ml5"
 import { Container, Message } from "./styles"
 
 import { draw, drawColorMapping } from "../../Functions/draw"
-import { singleNote, createEnvelope } from "../../Functions/sound"
+import {
+  singleNote,
+  createEnvelope,
+  stopAllNotes,
+  theremin,
+} from "../../Functions/sound"
 import { palette } from "../../Styles/colors"
 
 class PoseNet extends Component {
@@ -18,6 +23,9 @@ class PoseNet extends Component {
   }
 
   startPoseDetection = () => {
+    const notes = [singleNote(220.0)]
+
+    this.notes = notes
     // Creating a sound wave.
     // const modeOne = singleNote(220.0)
     // this.modeOne = modeOne
@@ -95,6 +103,7 @@ class PoseNet extends Component {
     window.poseEstimation = this.props.poseEstimation
     poseNet.on("pose", function(poses) {
       // Mode 1.
+      theremin(poses, notes[0])
       // if (
       //   typeof poses[0] !== "undefined" &&
       //   typeof poses[0].pose !== "undefined"
@@ -205,8 +214,8 @@ class PoseNet extends Component {
   stopPoseDetection() {
     this.video.stop()
     // Turn sounds off here as well.
-    // this.modeOne.stop()
     // this.modeOneOctave.stop()
+    stopAllNotes(this.notes)
   }
 
   componentDidUpdate(prevProps) {
