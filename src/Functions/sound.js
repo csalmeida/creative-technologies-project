@@ -55,9 +55,11 @@ export const createSoundMode = (waveOptions, envelopeOptions) => {
 
 /* Stops all P5 notes passed to it. */
 export const stopAllNotes = notes => {
-  for (let index = 0; index < notes.length; index++) {
-    const note = notes[index]
-    note.stop()
+  if (notes !== undefined && Array.isArray(notes)) {
+    for (let index = 0; index < notes.length; index++) {
+      const note = notes[index]
+      note.stop()
+    }
   }
 }
 
@@ -74,10 +76,80 @@ export const theremin = (poses, note) => {
     }
 
     if (Array.isArray(note) && note.length > 1) {
-      // Control sound signal (frequency)
+      // Control sound signal (frequency) of both wrists.
       note[0].freq(poses[0].pose.keypoints[9].position.y)
       note[1].freq(poses[0].pose.keypoints[0].position.x)
-      // console.log('Pose Data', poses[0])
     }
   }
 }
+
+// export const sprinkles = (poses, notes) => {
+//   switch (poses.length) {
+//         case 1:
+//           if (!this.posePlayedRoot) {
+//             console.log("Pose played?", this.posePlayedRoot)
+//             notes[1].play()
+//             this.posePlayedRoot = true
+
+//             this.posePlayedMinThird = false
+//             this.posePlayedPerfectFifth = false
+//             console.log(`Pose number is now: ${poses.length}
+//         Previous was ${this.previousLength}
+//         Root is ${this.posePlayedRoot}, Minor Third is ${
+//               this.posePlayedMinThird
+//             }, and Perfect Fifth is ${this.posePlayedPerfectFifth}`)
+//             console.log("Poses: ", poses)
+//           }
+//           break
+//         case 2:
+//           if (!this.posePlayedMinThird) {
+//             console.log("Pose played?", this.posePlayedMinThird)
+//             notes[2].play()
+//             this.posePlayedMinThird = true
+
+//             this.posePlayedPerfectFifth = false
+//             console.log(`Pose number is now: ${poses.length}
+//         Previous was ${this.previousLength}
+//         Root is ${this.posePlayedRoot}, Minor Third is ${
+//               this.posePlayedMinThird
+//             }, and Perfect Fifth is ${this.posePlayedPerfectFifth}`)
+//             console.log("Poses: ", poses)
+//           }
+//           break
+//         case 3:
+//           if (!this.posePlayedPerfectFifth) {
+//             console.log("Pose played?", this.posePlayedPerfectFifth)
+//             notes[3].play()
+//             this.posePlayedPerfectFifth = true
+//             console.log(`Pose number is now: ${poses.length}
+//         Previous was ${this.previousLength}
+//         Root is ${this.posePlayedRoot}, Minor Third is ${
+//               this.posePlayedMinThird
+//             }, and Perfect Fifth is ${this.posePlayedPerfectFifth}`)
+//             console.log("Poses: ", poses)
+//           }
+
+//         case 4 || 0:
+//           this.posePlayedRoot = false
+//           this.posePlayedMinThird = false
+//           this.posePlayedPerfectFifth = false
+//           console.log(`Pose number is now: ${poses.length}
+//         Previous was ${this.previousLength}
+//         Root is ${
+//           this.posePlayedRoot
+//         }, Minor Third is ${this.posePlayedMinThird}, and Perfect Fifth is ${this.posePlayedPerfectFifth}`)
+//           console.log("Poses: ", poses)
+//         default:
+//           break
+//       }
+
+//       if (poses.length === 0) {
+//         this.posePlayedRoot = false
+//         console.log(`Pose number is now: ${poses.length}
+//         Previous was ${this.previousLength}
+//         Root is ${this.posePlayedRoot}, Minor Third is ${
+//           this.posePlayedMinThird
+//         }, and Perfect Fifth is ${this.posePlayedPerfectFifth}`)
+//         console.log("Poses: ", poses)
+//       }
+// }
