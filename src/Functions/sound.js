@@ -1,7 +1,13 @@
 import * as p5 from "p5"
 import "p5/lib/addons/p5.sound"
 
-// Creating a sound wave.
+/* === === === ===
+P5 Function Group
+=== === === === */
+
+/* Creates a sound wave.
+   Accepts a frequency and amplitude can be enabled.
+*/
 export const singleNote = (frequency = 200, amplitude = false) => {
   const wave = new p5.Oscillator()
   wave.setType("sine")
@@ -13,6 +19,9 @@ export const singleNote = (frequency = 200, amplitude = false) => {
   return wave
 }
 
+/* Creates a sound with predetermined duration.
+   Every aspect can be configured through an option object.
+*/
 export const createEnvelope = (
   options = {
     attackLevel: 1.0,
@@ -35,8 +44,30 @@ export const createEnvelope = (
   return envelope
 }
 
+/* Creates a sound mode, taking a note and envelope to set its properties.
+   This function is deprecated.
+*/
 export const createSoundMode = (waveOptions, envelopeOptions) => {
   let envelope = envelope(envelopeOptions)
   singleNote(waveOptions).amp(envelope)
   return envelope
+}
+
+/* Stops all P5 notes passed to it. */
+export const stopAllNotes = notes => {
+  for (let index = 0; index < notes.length; index++) {
+    const note = notes[index]
+    note.stop()
+  }
+}
+
+/* Mode with similar properties of the Theremin.
+   Maps note frequency to the position of the arm.
+*/
+export const theremin = (poses, note) => {
+  if (typeof poses[0] !== "undefined" && typeof poses[0].pose !== "undefined") {
+    // Control sound signal (frequency) based on left wrist's position.
+    note.freq(poses[0].pose.keypoints[9].position.x)
+    console.log("Pose Data", poses[0])
+  }
 }
