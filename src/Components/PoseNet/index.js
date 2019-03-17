@@ -102,16 +102,8 @@ class PoseNet extends Component {
     window.x = poseNet
     window.poseEstimation = this.props.poseEstimation
     poseNet.on("pose", function(poses) {
-      // Mode 1.
+      // Mode 1 and 3.
       theremin(poses, notes[0])
-      // if (
-      //   typeof poses[0] !== "undefined" &&
-      //   typeof poses[0].pose !== "undefined"
-      // ) {
-      //   // Control sound signal (frequency)
-      //   modeOne.freq(poses[0].pose.keypoints[9].position.x)
-      //   // console.log('Pose Data', poses[0])
-      // }
 
       // Mode 2.
       // switch (poses.length) {
@@ -182,23 +174,6 @@ class PoseNet extends Component {
       //   }, and Perfect Fifth is ${this.posePlayedPerfectFifth}`)
       //   console.log("Poses: ", poses)
       // }
-
-      // Mode 3.
-      // if (
-      //   typeof poses[0] !== "undefined" &&
-      //   typeof poses[0].pose !== "undefined"
-      // ) {
-      //   // Control sound signal (frequency)
-      //   // let freq = poses[0].pose.keypoints[9].position.x
-      //   // modeThree.freq(freq)
-      //   // // give the filter a narrow band (lower res = wider bandpass)
-      //   // modeThree.res(50)
-
-      //   // Control sound signal (frequency)
-      //   modeOne.freq(poses[0].pose.keypoints[9].position.y)
-      //   modeOneOctave.freq(poses[0].pose.keypoints[0].position.x)
-      //   // console.log('Pose Data', poses[0])
-      // }
       window.poses = poses
       console.log("Poses: ", poses)
       if (
@@ -211,10 +186,9 @@ class PoseNet extends Component {
     // console.log('Detection type: ', poseNet.detectionType)
   }
 
+  // Turns off video and sound.
   stopPoseDetection() {
     this.video.stop()
-    // Turn sounds off here as well.
-    // this.modeOneOctave.stop()
     stopAllNotes(this.notes)
   }
 
