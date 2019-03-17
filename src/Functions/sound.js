@@ -67,6 +67,7 @@ export const stopAllNotes = notes => {
 export const theremin = (poses, note) => {
   if (typeof poses[0] !== "undefined" && typeof poses[0].pose !== "undefined") {
     if (!Array.isArray(note) || note.length === 1) {
+      note = note.length === 1 ? note[0] : note
       // Control sound signal (frequency) based on left wrist's position.
       note.freq(poses[0].pose.keypoints[9].position.x)
       console.log("Pose Data", poses[0])
