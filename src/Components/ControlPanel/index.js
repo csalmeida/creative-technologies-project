@@ -162,6 +162,7 @@ class ControlPanel extends Component {
     return (
       <Container key={this.state.active}>
         <h1>Sound Mapping</h1>
+
         <Select
           key={this.state.active}
           label="Mode"
@@ -170,7 +171,7 @@ class ControlPanel extends Component {
           actionType={SOUNDMAPPING.MODE_UPDATE}
         />
 
-        {this.props.soundMapping.mode === "Synth Comp" && (
+        {this.props.soundMapping.mode === "synth comp" && (
           <Fragment>
             <Input
               label="Transport"

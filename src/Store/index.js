@@ -28,7 +28,7 @@ const initialState = {
     },
   },
   soundMapping: {
-    mode: "Synth Comp",
+    mode: "synth comp",
     synthComposition: {
       transport: false,
       lowpass: 200,
