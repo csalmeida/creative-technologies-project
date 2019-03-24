@@ -1,6 +1,10 @@
 import React, { Component, Fragment } from "react"
 import { connect } from "react-redux"
-import { VIDEOSTREAM, POSEESTIMATION } from "../../Store/Actions/types"
+import {
+  VIDEOSTREAM,
+  POSEESTIMATION,
+  SOUNDMAPPING,
+} from "../../Store/Actions/types"
 
 import Input from "../Input"
 import Select from "../Select"
@@ -158,6 +162,13 @@ class ControlPanel extends Component {
     return (
       <Container key={this.state.active}>
         <h1>Sound Mapping</h1>
+        <Select
+          key={this.state.active}
+          label="Mode"
+          options={["Theremin", "Synth Comp"]}
+          value={this.props.soundMapping.mode}
+          actionType={SOUNDMAPPING.MODE_UPDATE}
+        />
       </Container>
     )
   }
@@ -212,6 +223,7 @@ class ControlPanel extends Component {
 const mapStateToProps = state => ({
   videoStream: state.videoStream,
   poseEstimation: state.poseEstimation,
+  soundMapping: state.soundMapping,
 })
 
 export default connect(

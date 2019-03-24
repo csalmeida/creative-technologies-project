@@ -7,13 +7,8 @@ import "p5/lib/addons/p5.sound"
 import * as ml5 from "ml5"
 import { Container, Message } from "./styles"
 
-import { draw, drawColorMapping } from "../../Functions/draw"
-import {
-  singleNote,
-  createEnvelope,
-  stopAllNotes,
-  theremin,
-} from "../../Functions/sound"
+import { drawColorMapping } from "../../Functions/draw"
+import { stopAllNotes, theremin, synthComposition } from "../../Functions/sound"
 import { palette } from "../../Styles/colors"
 
 class PoseNet extends Component {
@@ -25,7 +20,7 @@ class PoseNet extends Component {
   startPoseDetection = () => {
     // const notes = [singleNote(220.0 , false)]
     // this.notes = notes
-
+    synthComposition()
     window.p5 = p5
 
     console.log("Props on poseDetection: ", this.props)
@@ -66,10 +61,6 @@ class PoseNet extends Component {
     const poseOptions = {
       ...this.props.poseEstimation,
     }
-
-    this.posePlayedRoot = false
-    this.posePlayedMinThird = false
-    this.posePlayedPerfectFifth = false
 
     const poseNet = ml5.poseNet(video, poseOptions, () => {
       console.log("model ready")
