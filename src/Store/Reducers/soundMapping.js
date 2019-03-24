@@ -7,6 +7,11 @@ export default function reducer(state = null, action) {
         ...state,
         mode: action.payload,
       }
+    case SOUNDMAPPING.SYNTHCOMP_TRANSPORT_TOGGLE:
+      return {
+        ...state,
+        transport: !state.transport,
+      }
     default:
       return state
   }
