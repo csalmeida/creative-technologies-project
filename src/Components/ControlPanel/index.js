@@ -169,6 +169,46 @@ class ControlPanel extends Component {
           value={this.props.soundMapping.mode}
           actionType={SOUNDMAPPING.MODE_UPDATE}
         />
+
+        {this.props.soundMapping.mode === "Synth Comp" && (
+          <Fragment>
+            <Input
+              label="Transport"
+              type="checkbox"
+              checked={this.props.soundMapping.synthComposition.transport}
+              actionType={SOUNDMAPPING.SYNTHCOMP_TRANSPORT_TOGGLE}
+            />
+            <Input
+              label="Phaser Octave"
+              type="number"
+              value={this.props.soundMapping.synthComposition.phaserOctave}
+              actionType={SOUNDMAPPING.SYNTHCOMP_PHASEROCTAVE_UPDATE}
+            />
+
+            <Input
+              label="Phaser Base Frequency"
+              type="number"
+              value={
+                this.props.soundMapping.synthComposition.phaserBaseFrequency
+              }
+              actionType={SOUNDMAPPING.SYNTHCOMP_PHASERBASEFREQUENCY_UPDATE}
+            />
+
+            <Input
+              label="Vibrato Depth"
+              type="number"
+              value={this.props.soundMapping.synthComposition.vibratoDepth}
+              actionType={SOUNDMAPPING.SYNTHCOMP_VIBRATODEPTH_UPDATE}
+            />
+
+            <Input
+              label="Auto Wah Q"
+              type="number"
+              value={this.props.soundMapping.synthComposition.autoWahQ}
+              actionType={SOUNDMAPPING.SYNTHCOMP_AUTOWAHQ_UPDATE}
+            />
+          </Fragment>
+        )}
       </Container>
     )
   }
