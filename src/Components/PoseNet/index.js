@@ -20,7 +20,8 @@ class PoseNet extends Component {
   startPoseDetection = () => {
     // const notes = [singleNote(220.0 , false)]
     // this.notes = notes
-    synthComposition()
+    this.sound = synthComposition()
+    window.tone = this.sound
     window.p5 = p5
 
     console.log("Props on poseDetection: ", this.props)

@@ -165,6 +165,12 @@ Tone Function Group
 export const synthComposition = () => {
   console.clear()
 
+  // Check for poses
+  // if (typeof poses[0] !== "undefined" && typeof poses[0].pose !== "undefined") {
+  //     poses[0].pose.keypoints[9].position.x
+  //     console.log("Pose Data", poses[0])
+  //   }
+
   var lowpass = new Tone.Filter(200, "lowpass").toMaster()
   let autoWah = new Tone.AutoWah(50, 6, -30).toMaster()
   let vibrato = new Tone.Vibrato().toMaster()
@@ -239,6 +245,6 @@ export const synthComposition = () => {
       bassSeq,
       keysSeq,
     },
-    toggle: Tone.Transport.toggle(),
+    transport: Tone.Transport,
   }
 }
