@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react"
 import { connect } from "react-redux"
 import { updateValue } from "../../Store/Actions"
+import { capitalize } from "../../Functions/text"
 
 import { Container, Options, Option } from "./styles"
 
@@ -54,7 +55,7 @@ class Select extends Component {
       <label>{this.props.label}</label>
       <Options onClick={() => this.open()} open={this.state.open}>
         <Option open={this.state.open}>
-          {this.props.value}
+          {capitalize(this.props.value)}
           {svgTriangle()}
         </Option>
 
