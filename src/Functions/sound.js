@@ -1,5 +1,6 @@
 import * as p5 from "p5"
 import "p5/lib/addons/p5.sound"
+import * as Tone from "tone"
 
 /* === === === ===
 P5 Function Group
@@ -153,3 +154,91 @@ export const theremin = (poses, note) => {
 //         console.log("Poses: ", poses)
 //       }
 // }
+
+/* === === === ===
+Tone Function Group
+=== === === === */
+
+/* Mode allows control of filters applied on pre made composition.
+  Composition includes keys, bass and a membrane synth.
+*/
+export const synthComposition = () => {
+  console.clear()
+
+  var lowpass = new Tone.Filter(200, "lowpass").toMaster()
+  let autoWah = new Tone.AutoWah(50, 6, -30).toMaster()
+  let vibrato = new Tone.Vibrato().toMaster()
+  var phaser = new Tone.Phaser({
+    frequency: 20,
+    octaves: 5,
+    baseFrequency: 500,
+  }).toMaster()
+
+  const keys = {
+    synth: new Tone.PolySynth(6, Tone.DuoSynth).connect(autoWah),
+    notes: ["C4"],
+    gain: new Tone.Gain(0.4),
+  }
+
+  keys.synth.connect(keys.gain)
+
+  const bass = {
+    synth: new Tone.DuoSynth().connect(vibrato),
+    notes: ["C2", ["A2", "C2"], "Eb2", "G2", "Bb2"],
+    gain: new Tone.Gain(0.6),
+  }
+
+  bass.synth.connect(bass.gain)
+
+  const membrane = {
+    synth: new Tone.MembraneSynth().connect(phaser),
+    notes: ["C2", ["C2", "C2"], "C2", "C2", "C2"],
+    gain: new Tone.Gain(0.2).toMaster(),
+  }
+
+  membrane.synth.connect(membrane.gain)
+  membrane.synth.oscillator.type = "sine"
+
+  const rhythmSeq = new Tone.Sequence(
+    function(time, note) {
+      membrane.synth.triggerAttackRelease(note, "4n", time)
+    },
+    membrane.notes,
+    "4n",
+  )
+
+  const bassSeq = new Tone.Sequence(
+    function(time, note) {
+      bass.synth.triggerAttackRelease(note, "4n", time)
+    },
+    bass.notes,
+    "4n",
+  )
+
+  let keysSeq = new Tone.Part(
+    function(time, note) {
+      keys.synth.triggerAttackRelease(note, "8n", time)
+    },
+    [[0, ["F3", "Ab3", "C3"]], ["0:2", ["C3", "Eb3", "G3"]], ["0:3:2", "G2"]],
+  )
+  keysSeq.loop = true
+
+  rhythmSeq.start()
+  bassSeq.start()
+  keysSeq.start()
+
+  return {
+    effects: {
+      lowpass,
+      autoWah,
+      vibrato,
+      phaser,
+    },
+    sequence: {
+      rhythmSeq,
+      bassSeq,
+      keysSeq,
+    },
+    toggle: Tone.Transport.toggle(),
+  }
+}
