@@ -27,7 +27,9 @@ const initialState = {
       color: "#f9e5de",
     },
   },
-  soundMapping: {},
+  soundMapping: {
+    mode: "Synth Comp",
+  },
 }
 
 export const Store = createStore(
