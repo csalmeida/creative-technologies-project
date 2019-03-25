@@ -87,6 +87,7 @@ class PoseNet extends Component {
     window.x = poseNet
     window.poseEstimation = this.props.poseEstimation
     poseNet.on("pose", function(poses) {
+      console.log("Pose value: ", poses[0].pose.keypoints[9].position.y)
       if (
         typeof poses[0] !== "undefined" &&
         typeof poses[0].pose !== "undefined"
@@ -98,7 +99,7 @@ class PoseNet extends Component {
         if (soundMode === "synth comp") {
           let effects = {
             autoWahQ: sketch.map(
-              poses[0].pose.keypoints[0].position.x,
+              poses[0].pose.keypoints[13].position.x,
               10,
               sketch.width,
               0,
@@ -106,7 +107,7 @@ class PoseNet extends Component {
               true,
             ), // Up to 10.
             vibratoDepth: sketch.map(
-              poses[0].pose.keypoints[0].position.x,
+              poses[0].pose.keypoints[14].position.x,
               10,
               sketch.width,
               0,
@@ -114,14 +115,21 @@ class PoseNet extends Component {
               true,
             ), // Up tp 1.
             phaserOctave: sketch.map(
-              poses[0].pose.keypoints[10].position.x,
-              10,
-              sketch.width,
-              1,
+              poses[0].pose.keypoints[10].position.y,
+              0,
+              sketch.height,
               8,
+              1,
               true,
             ), // Up to 8.
-            phaserBaseFrequency: poses[0].pose.keypoints[9].position.x, // Up to 1000.}
+            phaserBaseFrequency: sketch.map(
+              poses[0].pose.keypoints[9].position.y,
+              0,
+              sketch.height,
+              1000,
+              100,
+              true,
+            ), // Up to 1000.
           }
           updateSynthCompEffects(synthComp, effects)
         }
