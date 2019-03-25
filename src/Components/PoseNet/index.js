@@ -97,10 +97,31 @@ class PoseNet extends Component {
 
         if (soundMode === "synth comp") {
           let effects = {
-            autoWahQ: 0, // Up to 10.
-            vibratoDepth: 0, // Up tp 1.
-            phaserOctave: 2, // Up to 8.
-            phaserBaseFrequency: poses[0].pose.keypoints[0].position.x, // Up to 1000.}
+            autoWahQ: sketch.map(
+              poses[0].pose.keypoints[0].position.x,
+              10,
+              sketch.width,
+              0,
+              8,
+              true,
+            ), // Up to 10.
+            vibratoDepth: sketch.map(
+              poses[0].pose.keypoints[0].position.x,
+              10,
+              sketch.width,
+              0,
+              1,
+              true,
+            ), // Up tp 1.
+            phaserOctave: sketch.map(
+              poses[0].pose.keypoints[10].position.x,
+              10,
+              sketch.width,
+              1,
+              8,
+              true,
+            ), // Up to 8.
+            phaserBaseFrequency: poses[0].pose.keypoints[9].position.x, // Up to 1000.}
           }
           updateSynthCompEffects(synthComp, effects)
         }
