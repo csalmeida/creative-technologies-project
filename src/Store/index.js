@@ -30,12 +30,19 @@ const initialState = {
   soundMapping: {
     mode: "synth comp",
     synthComposition: {
-      transport: false,
-      lowpass: 200,
-      autoWahQ: 0, // Up to 10.
-      vibratoDepth: 0, // Up tp 1.
-      phaserOctave: 6, // Up to 8.
-      phaserBaseFrequency: 500, // Up to 1000.
+      effect: {
+        transport: false,
+        lowpass: 200,
+        autoWahQ: 0, // Up to 10.
+        vibratoDepth: 0, // Up tp 1.
+        phaserOctave: 5, // Up to 8.
+        phaserBaseFrequency: 500, // Up to 1000.}
+      },
+      sequence: {
+        rhythm: true,
+        bass: true,
+        keys: true,
+      },
     },
   },
 }

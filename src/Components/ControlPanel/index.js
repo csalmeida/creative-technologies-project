@@ -176,13 +176,17 @@ class ControlPanel extends Component {
             <Input
               label="Transport"
               type="checkbox"
-              checked={this.props.soundMapping.synthComposition.transport}
+              checked={
+                this.props.soundMapping.synthComposition.effect.transport
+              }
               actionType={SOUNDMAPPING.SYNTHCOMP_TRANSPORT_TOGGLE}
             />
             <Input
               label="Phaser Octave"
               type="number"
-              value={this.props.soundMapping.synthComposition.phaserOctave}
+              value={
+                this.props.soundMapping.synthComposition.effect.phaserOctave
+              }
               actionType={SOUNDMAPPING.SYNTHCOMP_PHASEROCTAVE_UPDATE}
             />
 
@@ -190,7 +194,8 @@ class ControlPanel extends Component {
               label="Phaser Base Frequency"
               type="number"
               value={
-                this.props.soundMapping.synthComposition.phaserBaseFrequency
+                this.props.soundMapping.synthComposition.effect
+                  .phaserBaseFrequency
               }
               actionType={SOUNDMAPPING.SYNTHCOMP_PHASERBASEFREQUENCY_UPDATE}
             />
@@ -198,14 +203,16 @@ class ControlPanel extends Component {
             <Input
               label="Vibrato Depth"
               type="number"
-              value={this.props.soundMapping.synthComposition.vibratoDepth}
+              value={
+                this.props.soundMapping.synthComposition.effect.vibratoDepth
+              }
               actionType={SOUNDMAPPING.SYNTHCOMP_VIBRATODEPTH_UPDATE}
             />
 
             <Input
               label="Auto Wah Q"
               type="number"
-              value={this.props.soundMapping.synthComposition.autoWahQ}
+              value={this.props.soundMapping.synthComposition.effect.autoWahQ}
               actionType={SOUNDMAPPING.SYNTHCOMP_AUTOWAHQ_UPDATE}
             />
           </Fragment>
