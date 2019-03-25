@@ -171,14 +171,14 @@ export const synthComposition = () => {
   //     console.log("Pose Data", poses[0])
   //   }
 
-  var lowpass = new Tone.Filter(200, "lowpass").toMaster()
-  let autoWah = new Tone.AutoWah(50, 6, -30).toMaster()
-  let vibrato = new Tone.Vibrato().toMaster()
-  var phaser = new Tone.Phaser({
-    frequency: 20,
-    octaves: 5,
-    baseFrequency: 500,
-  }).toMaster()
+  const lowpass = new Tone.Filter(200, "lowpass").toMaster(),
+    autoWah = new Tone.AutoWah(50, 6, -30).toMaster(),
+    vibrato = new Tone.Vibrato().toMaster(),
+    phaser = new Tone.Phaser({
+      frequency: 20,
+      octaves: 5,
+      baseFrequency: 500,
+    }).toMaster()
 
   const keys = {
     synth: new Tone.PolySynth(6, Tone.DuoSynth).connect(autoWah),
@@ -234,7 +234,7 @@ export const synthComposition = () => {
   keysSeq.start()
 
   return {
-    effects: {
+    effect: {
       lowpass,
       autoWah,
       vibrato,
@@ -246,5 +246,30 @@ export const synthComposition = () => {
       keysSeq,
     },
     transport: Tone.Transport,
+  }
+}
+
+/* This functions allows composition effects to be changed post initialization.
+   Specially useful when passing store values or dynamic values such as output of a pose.
+*/
+export const updateSynthCompEffects = (composition, effect) => {
+  if (effect.lowpass !== undefined) {
+    composition.effect.lowpass.Q.value = effect.lowpass
+  }
+
+  if (effect.autoWahQ !== undefined) {
+    composition.effect.autoWah.Q.value = effect.autoWahQ
+  }
+
+  if (effect.vibratoDepth !== undefined) {
+    composition.effect.vibrato.depth.value = effect.vibratoDepth
+  }
+
+  if (effect.phaserOctave !== undefined) {
+    composition.effect.phaser.octaves = effect.phaserOctave
+  }
+
+  if (effect.phaserBaseFrequency !== undefined) {
+    composition.effect.phaser.baseFrequency = effect.phaserBaseFrequency
   }
 }
