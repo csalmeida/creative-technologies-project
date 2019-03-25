@@ -3,12 +3,12 @@ import { connect } from "react-redux"
 import * as p5 from "p5"
 // Add .min for production version (this will turn off debug mode)
 import "p5/lib/addons/p5.dom"
-import "p5/lib/addons/p5.sound"
 import * as ml5 from "ml5"
 import { Container, Message } from "./styles"
 
 import { drawColorMapping } from "../../Functions/draw"
 import {
+  singleNote,
   stopAllNotes,
   theremin,
   synthComposition,
@@ -19,17 +19,26 @@ import { palette } from "../../Styles/colors"
 class PoseNet extends Component {
   constructor(props) {
     super(props)
+    // Reference of a custom element to hold the sketch.
     this.container = React.createRef()
   }
 
   startPoseDetection = () => {
-    // const notes = [singleNote(220.0 , false)]
-    // this.notes = notes
+    const soundMode = this.props.soundMapping.mode
+    let notes = []
     const synthComp = synthComposition()
     this.synthComp = synthComp
-    // updateSynthCompEffects(this.synthComp, this.props.soundMapping.synthComposition.effect)
-    this.synthComp.transport.start()
-    window.tone = this.synthComp
+
+    if (soundMode === "theremin") {
+      notes = [singleNote(220.0, false)]
+      this.notes = notes
+    }
+
+    if (soundMode === "synth comp") {
+      this.synthComp.transport.start()
+      window.tone = this.synthComp
+    }
+
     window.p5 = p5
 
     console.log("Props on poseDetection: ", this.props)
@@ -78,23 +87,23 @@ class PoseNet extends Component {
     window.x = poseNet
     window.poseEstimation = this.props.poseEstimation
     poseNet.on("pose", function(poses) {
-      // Mode 1 and 3.
-      //theremin(poses, notes[0])
-      //   window.poses = poses
-      //   //console.log("Poses: ", poses)
-
       if (
         typeof poses[0] !== "undefined" &&
         typeof poses[0].pose !== "undefined"
       ) {
-        let effects = {
-          autoWahQ: 0, // Up to 10.
-          vibratoDepth: 0, // Up tp 1.
-          phaserOctave: 2, // Up to 8.
-          phaserBaseFrequency: poses[0].pose.keypoints[0].position.x, // Up to 1000.}
+        if (soundMode === "theremin") {
+          theremin(poses, notes[0])
         }
 
-        updateSynthCompEffects(synthComp, effects)
+        if (soundMode === "synth comp") {
+          let effects = {
+            autoWahQ: 0, // Up to 10.
+            vibratoDepth: 0, // Up tp 1.
+            phaserOctave: 2, // Up to 8.
+            phaserBaseFrequency: poses[0].pose.keypoints[0].position.x, // Up to 1000.}
+          }
+          updateSynthCompEffects(synthComp, effects)
+        }
         drawColorMapping(sketch, video, poses, palette.highlight, drawOptions)
       }
     })
@@ -104,9 +113,13 @@ class PoseNet extends Component {
   // Turns off video and sound.
   stopPoseDetection() {
     this.video.stop()
-    console.log("Notes: ", this.notes)
-    stopAllNotes(this.notes)
-    this.synthComp.transport.stop()
+    if (this.props.soundMapping.mode === "theremin") {
+      stopAllNotes(this.notes)
+    }
+
+    if (this.props.soundMapping.mode === "synth comp") {
+      this.synthComp.transport.stop()
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -138,14 +151,6 @@ const mapStateToProps = state => ({
   poseEstimation: state.poseEstimation,
   soundMapping: state.soundMapping,
 })
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     alternate(toggle, type) {
-//       dispatch(alternate(toggle, type))
-//     },
-//   }
-// }
 
 export default connect(
   mapStateToProps,
