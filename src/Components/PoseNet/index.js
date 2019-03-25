@@ -8,7 +8,12 @@ import * as ml5 from "ml5"
 import { Container, Message } from "./styles"
 
 import { drawColorMapping } from "../../Functions/draw"
-import { stopAllNotes, theremin, synthComposition } from "../../Functions/sound"
+import {
+  stopAllNotes,
+  theremin,
+  synthComposition,
+  updateSynthCompEffects,
+} from "../../Functions/sound"
 import { palette } from "../../Styles/colors"
 
 class PoseNet extends Component {
@@ -20,8 +25,11 @@ class PoseNet extends Component {
   startPoseDetection = () => {
     // const notes = [singleNote(220.0 , false)]
     // this.notes = notes
-    this.sound = synthComposition()
-    window.tone = this.sound
+    const synthComp = synthComposition()
+    this.synthComp = synthComp
+    // updateSynthCompEffects(this.synthComp, this.props.soundMapping.synthComposition.effect)
+    this.synthComp.transport.start()
+    window.tone = this.synthComp
     window.p5 = p5
 
     console.log("Props on poseDetection: ", this.props)
@@ -74,10 +82,19 @@ class PoseNet extends Component {
       //theremin(poses, notes[0])
       //   window.poses = poses
       //   //console.log("Poses: ", poses)
+
       if (
         typeof poses[0] !== "undefined" &&
         typeof poses[0].pose !== "undefined"
       ) {
+        let effects = {
+          autoWahQ: 0, // Up to 10.
+          vibratoDepth: 0, // Up tp 1.
+          phaserOctave: 2, // Up to 8.
+          phaserBaseFrequency: poses[0].pose.keypoints[0].position.x, // Up to 1000.}
+        }
+
+        updateSynthCompEffects(synthComp, effects)
         drawColorMapping(sketch, video, poses, palette.highlight, drawOptions)
       }
     })
@@ -89,6 +106,7 @@ class PoseNet extends Component {
     this.video.stop()
     console.log("Notes: ", this.notes)
     stopAllNotes(this.notes)
+    this.synthComp.transport.stop()
   }
 
   componentDidUpdate(prevProps) {
@@ -118,7 +136,16 @@ class PoseNet extends Component {
 const mapStateToProps = state => ({
   videoStream: state.videoStream,
   poseEstimation: state.poseEstimation,
+  soundMapping: state.soundMapping,
 })
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     alternate(toggle, type) {
+//       dispatch(alternate(toggle, type))
+//     },
+//   }
+// }
 
 export default connect(
   mapStateToProps,
