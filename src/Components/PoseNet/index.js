@@ -87,7 +87,7 @@ class PoseNet extends Component {
     window.x = poseNet
     window.poseEstimation = this.props.poseEstimation
     poseNet.on("pose", function(poses) {
-      console.log("Pose value: ", poses[0].pose.keypoints[9].position.y)
+      //console.log("Pose value: ", poses[0].pose.keypoints[9].position.y)
       if (
         typeof poses[0] !== "undefined" &&
         typeof poses[0].pose !== "undefined"
