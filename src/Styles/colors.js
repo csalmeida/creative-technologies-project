@@ -16,9 +16,10 @@ const color = {
 
 export const palette = {
   base: color.slateBlue,
-  highlight: color.redOrange,
+  highlight: color.frenchMauve,
   text: color.mistyRose,
   lighttone: color.unitedNationsBlue,
   midtone: color.violetBlue,
   darktone: color.cobaltBlue,
+  danger: color.redOrange,
 }

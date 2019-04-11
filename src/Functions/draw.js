@@ -70,8 +70,8 @@ export const drawColorByThirds = (
     let position = poses[0].pose.keypoints[0].position.x
 
     if (position >= 0 && position <= third) {
-      drawKeypoints(sketch, poses, hexToRgb("#f02d3a"))
-      drawSkeleton(sketch, poses, hexToRgb("#f02d3a"))
+      drawKeypoints(sketch, poses, hexToRgb(palette.danger))
+      drawSkeleton(sketch, poses, hexToRgb(palette.danger))
     } else if (position >= third && position <= third * 2) {
       drawKeypoints(sketch, poses, hexToRgb(palette.highlight))
       drawSkeleton(sketch, poses, hexToRgb(palette.highlight))
