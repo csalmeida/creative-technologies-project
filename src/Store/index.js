@@ -31,8 +31,8 @@ const initialState = {
     mode: "synth comp",
     synthComposition: {
       effect: {
-        transport: false,
-        lowpass: 200,
+        transport: false, // Whether composition is playing or not.
+        lowpassFilterQ: 200, // Up tp 1000.
         autoWahQ: 0, // Up to 10.
         vibratoDepth: 0, // Up tp 1.
         phaserOctave: 5, // Up to 8.

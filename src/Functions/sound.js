@@ -168,7 +168,7 @@ export const synthComposition = () => {
   //     console.log("Pose Data", poses[0])
   //   }
 
-  const lowpass = new Tone.Filter(200, "lowpass").toMaster(),
+  const lowpassFilter = new Tone.Filter(200, "lowpass").toMaster(),
     autoWah = new Tone.AutoWah(50, 6, -30).toMaster(),
     vibrato = new Tone.Vibrato().toMaster(),
     phaser = new Tone.Phaser({
@@ -186,7 +186,7 @@ export const synthComposition = () => {
   keys.synth.connect(keys.gain)
 
   const bass = {
-    synth: new Tone.DuoSynth().connect(vibrato),
+    synth: new Tone.DuoSynth().connect(vibrato).connect(lowpassFilter),
     notes: ["C2", ["A2", "C2"], "Eb2", "G2", "Bb2"],
     gain: new Tone.Gain(0.6),
   }
@@ -232,7 +232,7 @@ export const synthComposition = () => {
 
   return {
     effect: {
-      lowpass,
+      lowpassFilter,
       autoWah,
       vibrato,
       phaser,
@@ -250,8 +250,8 @@ export const synthComposition = () => {
    Specially useful when passing store values or dynamic values such as output of a pose.
 */
 export const updateSynthCompEffects = (composition, effect) => {
-  if (effect.lowpass !== undefined) {
-    composition.effect.lowpass.Q.value = effect.lowpass
+  if (effect.lowpassFilter !== undefined) {
+    composition.effect.lowpassFilter.Q.value = effect.lowpassFilterQ
   }
 
   if (effect.autoWahQ !== undefined) {

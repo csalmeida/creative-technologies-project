@@ -98,18 +98,26 @@ class PoseNet extends Component {
 
         if (soundMode === "synth comp") {
           let effects = {
+            lowpassFilterQ: sketch.map(
+              poses[0].pose.keypoints[0].position.x,
+              0,
+              sketch.height / 2,
+              0,
+              15,
+              true,
+            ), // Up to 1000.
             autoWahQ: sketch.map(
               poses[0].pose.keypoints[13].position.x,
               10,
               sketch.width,
               0,
-              8,
+              12,
               true,
             ), // Up to 10.
             vibratoDepth: sketch.map(
               poses[0].pose.keypoints[14].position.x,
               10,
-              sketch.width,
+              sketch.width / 2,
               0,
               1,
               true,
@@ -117,17 +125,17 @@ class PoseNet extends Component {
             phaserOctave: sketch.map(
               poses[0].pose.keypoints[10].position.y,
               0,
-              sketch.height,
-              8,
+              sketch.height / 2,
               1,
+              8,
               true,
             ), // Up to 8.
             phaserBaseFrequency: sketch.map(
               poses[0].pose.keypoints[9].position.y,
               0,
-              sketch.height,
-              1000,
+              sketch.height / 2,
               100,
+              1000,
               true,
             ), // Up to 1000.
           }
