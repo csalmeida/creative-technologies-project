@@ -162,8 +162,6 @@ Tone Function Group
   Composition includes keys, bass and a membrane synth.
 */
 export const synthComposition = () => {
-  console.clear()
-
   // Check for poses
   // if (typeof poses[0] !== "undefined" && typeof poses[0].pose !== "undefined") {
   //     poses[0].pose.keypoints[9].position.x

@@ -1,5 +1,5 @@
 /* Functions are not imported into here anymore,
-   these are now imported through their own files.
+   these are now imported from their own files.
 
    This file was created to streamline syntax when importing functions.
    All functions would be exported from here, changing the syntax of import statements:
