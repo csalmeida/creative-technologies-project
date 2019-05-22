@@ -55,7 +55,9 @@ class Select extends Component {
       <label>{this.props.label}</label>
       <Options onClick={() => this.open()} open={this.state.open}>
         <Option open={this.state.open}>
-          {capitalize(this.props.value)}
+          {typeof this.props.value === "number"
+            ? this.props.value
+            : capitalize(this.props.value)}
           {svgTriangle()}
         </Option>
 
