@@ -124,7 +124,7 @@ class PoseNet extends Component {
             ), // Up tp 1.
             phaserOctave: sketch.map(
               poses[0].pose.keypoints[10].position.y,
-              0,
+              20,
               sketch.height / 2,
               1,
               8,
@@ -132,7 +132,7 @@ class PoseNet extends Component {
             ), // Up to 8.
             phaserBaseFrequency: sketch.map(
               poses[0].pose.keypoints[9].position.y,
-              0,
+              20,
               sketch.height / 2,
               100,
               1000,
